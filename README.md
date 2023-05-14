@@ -36,7 +36,7 @@ Make sure that your Supabase database is set up correctly and that you have the 
     
 ## Contributing
 
-We welcome contributions from the community! To contribute to NextLMS, follow these steps:
+We welcome contributions from the community! To contribute to Battle Map, follow these steps:
 
 1. Fork the repository
 2. Make your changes
