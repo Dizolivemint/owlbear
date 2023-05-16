@@ -1,30 +1,4 @@
-type Choice = {
-  text: string;
-  index: number;
-  logprobs: null;
-  finish_reason: string;
-}
-
-interface Character {
-  name: string;
-  species: string;
-  challenge_rating: number;
-  attributes: {
-    STR: number;
-    DEX: number;
-    CON: number;
-    INT: number;
-    WIS: number;
-    CHA: number;
-  };
-  skills: Record<string, number>;
-  actions: Record<string, string>;
-  reactions: Record<string, string>;
-  description: string;
-}
-
-type AttributeKey = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA';
-
+import { Character } from '@/lib/app.types';
 
 export class ChatGPTClient {
   private apiKey: string;
@@ -45,8 +19,8 @@ export class ChatGPTClient {
     this.checkKey();
   
     const { size, species, challengeRating } = JSON.parse(request);
-  
-    const prompt = `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Include STR, DEX, CON, INT, WIS, CHA. Also, include skills, actions, reactions and description. Provide this information in JSON format.`;
+
+    const prompt = `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Include Attributes: { STR: number, DEX: number, CON: number, INT: number, WIS: number, CHA: number }. Also, include skills [], actions [], reactions [], name and description as strings. Provide this information in a JSON format.`;
   
     const requestBody = {
       "model": "text-davinci-003",
@@ -72,12 +46,14 @@ export class ChatGPTClient {
         if (!response.ok || !response.body) {
           throw new Error(`Error: ${response.statusText}`);
         }
-  
+
+        
         const uint8ArrayResponseBody = await response.arrayBuffer(); // Get response body as Uint8Array
         const responseBody = JSON.parse(new TextDecoder().decode(uint8ArrayResponseBody)); // Parse the JSON response
   
+        console.log('responseBody', responseBody)
+
         const character: Character = {
-          name: '',
           species: species,
           challenge_rating: challengeRating,
           attributes: {
@@ -92,77 +68,39 @@ export class ChatGPTClient {
           actions: {},
           reactions: {},
           description: '',
+          size
         };
   
-        for (const choice of responseBody.choices) {
-          const text = choice.text.trim();
-          const lines = text.split('\n');
-  
-          for (const line of lines) {
-            const matches = line.match(/^(STR|DEX|CON|INT|WIS|CHA):\s*(\d+)/);
-  
-            if (matches) {
-              const attribute = matches[1] as keyof Character['attributes'];
-              const value = parseInt(matches[2], 10);
-              if (attribute in character.attributes) {
-                character.attributes[attribute] = value;
-              }
-            }
-  
-            if (line.startsWith('Skills:')) {
-              const skills = line.slice('Skills:'.length).trim();
-              try {
-                const parsedSkills = JSON.parse(skills);
-                if (typeof parsedSkills === 'object') {
-                  character.skills = parsedSkills;
-                } else {
-                  console.error('Error parsing skills: expected object but got', typeof parsedSkills);
-                }
-              } catch (error) {
-                console.error('Error parsing skills:', error);
-              }
-            }
-  
-            if (line.startsWith('Actions:')) {
-              const actions = line.slice('Actions:'.length).trim();
-              try {
-                const parsedActions = JSON.parse(actions);
-                if (typeof parsedActions === 'object') {
-                  character.actions = parsedActions;
-                } else {
-                  console.error('Error parsing actions: expected object but got', typeof parsedActions);
-                }
-              } catch (error) {
-                console.error('Error parsing actions:', error);
-              }
-            }
-      
-            if (line.startsWith('Reactions:')) {
-              const reactions = line.slice('Reactions:'.length).trim();
-              try {
-                const parsedReactions = JSON.parse(reactions);
-                if (typeof parsedReactions === 'object') {
-                  character.reactions = parsedReactions;
-                } else {
-                  console.error('Error parsing reactions: expected object but got', typeof parsedReactions);
-                }
-              } catch (error) {
-                console.error('Error parsing reactions:', error);
-              }
-            }
-      
-            if (line.startsWith('Description:')) {
-              const description = line.slice('Description:'.length).trim();
-              character.description = description;
-            }
-      
-            if (line.startsWith('Name:')) {
-              const name = line.slice('Name:'.length).trim();
-              character.name = name;
-            }
-          }
+        // Get the first choice text, trim it, and parse it as JSON
+        const choiceText = responseBody.choices[0].text.trim();
+        const parsedData = JSON.parse(choiceText);
+
+        // Assign the parsed values to the character object
+        character.attributes = getPropInsensitive(parsedData, 'attributes');
+        if (!character.attributes || Object.values(character.attributes).some(val => !val)) {
+          throw new Error('Attributes are empty or undefined');
         }
-      return character;
+
+        character.skills = getPropInsensitive(parsedData, 'skills');
+        if (!character.skills || Object.values(character.skills).some(val => !val)) {
+          throw new Error('Skills are empty or undefined');
+        }
+
+        character.actions = getPropInsensitive(parsedData, 'actions');
+        if (!character.actions || Object.values(character.actions).some(val => !val)) {
+          throw new Error('Actions are empty or undefined');
+        }
+
+        character.reactions = getPropInsensitive(parsedData, 'reactions');
+
+        character.description = getPropInsensitive(parsedData, 'description');
+        if (!character.description) {
+          throw new Error('Description is empty or undefined');
+        }
+
+        character.name = getPropInsensitive(parsedData, 'name');
+
+        return character;
       } catch (error) {
         console.error('Error generating character:', error);
         retries++;
@@ -172,4 +110,17 @@ export class ChatGPTClient {
     }
     throw new Error(`Error generating character after ${retries} attempts`);
   }
+}
+
+function getPropInsensitive(obj: any, prop: string) {
+  const lowerProp = prop.toLowerCase();
+  for (let key in obj) {
+    if (key.toLowerCase() === lowerProp) {
+      if (obj[key] === undefined || obj[key] === '') {
+        throw new Error(`Property ${prop} is empty or undefined`);
+      }
+      return obj[key];
+    }
+  }
+  throw new Error(`Property ${prop} not found`);
 }

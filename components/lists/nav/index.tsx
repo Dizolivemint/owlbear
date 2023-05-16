@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import Button from '@/components/button';
-import { supabase } from '@/supabaseClient';
+import { supabase } from '@/lib/supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react'
 
 const List = styled.ul`
@@ -30,7 +30,8 @@ const Nav = (props: NavProps) => {
   // const navList = props.list;
   const navList = []
   if (!session) {
-    navList.push({ name: "Login", href: "/login" })
+    navList.push({ name: "Home", href: "/" })
+    navList.push({ name: "Login", href: "/login" }) 
   } else {
     navList.push({ name: "Characters", href: "/characters" })
     navList.push({ name: "Sessions", href: "/sesssions" })

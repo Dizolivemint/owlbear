@@ -15,7 +15,7 @@ export default function Login() {
   const router = useRouter();
 
   if (session) {
-    router.push('/practice');
+    router.push('/profile');
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
