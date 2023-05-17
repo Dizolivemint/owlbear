@@ -13,5 +13,23 @@ declare module 'styled-components' {
       borderColor: string;
       borderColorHighlight: string;
     };
+
+    fonts: {
+      primary: string;
+    };
+
+    fontSizes: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+
+    mediaQueries: {
+      smallest: string;
+      small: string;
+      medium: string;
+      large: string;
+      largest: string;
+    }
   }
 }

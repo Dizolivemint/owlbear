@@ -59,7 +59,6 @@ export interface Database {
           image_filename: string | null
           initiative: number | null
           movement_speed: number | null
-          name: string
           updated_at: string
           user_id: string | null
         }
@@ -71,7 +70,6 @@ export interface Database {
           image_filename?: string | null
           initiative?: number | null
           movement_speed?: number | null
-          name: string
           updated_at?: string
           user_id?: string | null
         }
@@ -83,7 +81,6 @@ export interface Database {
           image_filename?: string | null
           initiative?: number | null
           movement_speed?: number | null
-          name?: string
           updated_at?: string
           user_id?: string | null
         }

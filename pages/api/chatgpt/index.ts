@@ -30,8 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
     const character: Database['public']['Tables']['characters']['Insert'] = {
       character_data: characterJson,
-      user_id: userId,
-      name: characterResponse?.name || 'Unnamed Character',
+      user_id: userId
     }
     const { data, error } = await supabaseServerClient
       .from('characters')

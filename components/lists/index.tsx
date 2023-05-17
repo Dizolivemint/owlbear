@@ -1,0 +1,21 @@
+import styled from 'styled-components';
+
+type ListProps = {
+  direction?: string;
+};
+
+const List = styled.ul<ListProps>`
+  display: flex;
+  flex-direction: ${props => props.direction ? props.direction : 'row'};
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    margin: 0 0.5rem;
+  }
+`;
+
+export default List

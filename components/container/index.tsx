@@ -4,7 +4,7 @@ import { myTheme } from '@/styles/theme';
 type ContainerProps = {
   children: React.ReactNode;
   size?: [number, number];
-  alignItems?: string;
+  center?: boolean;
 };
 
 const StyledContainer = styled.div<ContainerProps>`
@@ -14,12 +14,11 @@ const StyledContainer = styled.div<ContainerProps>`
   flex-direction: column;
   height: ${props => props.size ? props.size[0] : 'auto'};
   width: ${props => props.size ? props.size[1] : '100%'};
-  justify-content: center;
-  align-items: ${props => props.alignItems ? props.alignItems : 'center'};
-  text-align: ${props => props.alignItems ? props.alignItems : 'center'};
+  justify-content: ${props => props.center ? 'center' : 'flex-start'};
+  align-items: ${props => props.center ? 'center' : 'flex-start'};
+  text-align: ${props => props.center ? 'center' : 'left'};
   padding: 0 0.5rem;
   font-size: calc(10px + 2vmin);
-  margin: 1rem;
 `;
 
 const Container: React.FC<ContainerProps> = (props: ContainerProps) => {

@@ -20,7 +20,7 @@ export class ChatGPTClient {
   
     const { size, species, challengeRating } = JSON.parse(request);
 
-    const prompt = `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Include Attributes: { STR: number, DEX: number, CON: number, INT: number, WIS: number, CHA: number }. Also, include skills [], actions [], reactions [], name and description as strings. Provide this information in a JSON format.`;
+    const prompt = `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format { "name": string, "description": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number, }, "skills": [{ "skill": string, "description": string, }], "actions": [{ "action": string, "description": string, }], "reactions": [{ "reaction": string, "description": string, }] }. Descriptions for skills, actions, and reactions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`;
   
     const requestBody = {
       "model": "text-davinci-003",
@@ -32,7 +32,7 @@ export class ChatGPTClient {
 
     let retries = 0;
 
-    while (retries < 5) {
+    while (retries < 2) {
       try {
         const response = await fetch(this.apiEndpoint, {
           method: 'POST',
@@ -64,16 +64,24 @@ export class ChatGPTClient {
             WIS: 0,
             CHA: 0,
           },
-          skills: {},
-          actions: {},
-          reactions: {},
+          skills: [{ skill: '', description: '' }],
+          actions: [{ action: '', description: '' }],
+          reactions: [{ reaction: '', description: ''}],
           description: '',
           size
         };
   
-        // Get the first choice text, trim it, and parse it as JSON
+        // Get the first choice text, trim it, sanitize it, and parse it as JSON
         const choiceText = responseBody.choices[0].text.trim();
-        const parsedData = JSON.parse(choiceText);
+        const jsonStartIndex = choiceText.indexOf('{');
+        const jsonEndIndex = choiceText.lastIndexOf('}') + 1;
+        const trimmedJson = choiceText.slice(jsonStartIndex, jsonEndIndex);
+        const sanitizedJson = trimmedJson
+          .replace(/(\w+)\s*:\s*("[^"]*"|[\w\d]+)/g, '"$1": $2')
+          .replace(/;/g, ',')
+          .replace(/,\s*(}|\])/g, '$1');
+
+        const parsedData = JSON.parse(sanitizedJson);
 
         // Assign the parsed values to the character object
         character.attributes = getPropInsensitive(parsedData, 'attributes');

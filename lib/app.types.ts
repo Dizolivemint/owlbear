@@ -1,6 +1,8 @@
 export interface Character {
   name?: string;
   species: string;
+  description: string;
+  size: string;
   challenge_rating: number;
   attributes: {
     STR: number;
@@ -10,9 +12,22 @@ export interface Character {
     WIS: number;
     CHA: number;
   };
-  skills: Record<string, number>;
-  actions: Record<string, string>;
-  reactions: Record<string, string>;
-  description: string;
-  size: string;
+  skills: [
+    {
+      skill: string;
+      description: string;
+    }
+  ];
+  actions: [
+    {
+    action: string;
+    description: string;
+    }
+  ];
+  reactions: [
+    {
+      reaction: string;
+      description: string;
+    }
+  ];
 }

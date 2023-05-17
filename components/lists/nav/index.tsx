@@ -1,22 +1,8 @@
-import styled from 'styled-components';
+import List from '@/components/lists';
 import Link from 'next/link';
 import Button from '@/components/button';
 import { supabase } from '@/lib/supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react'
-
-const List = styled.ul`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  li {
-    margin: 0 1rem;
-  }
-`;
 
 type NavProps = {
   list: {

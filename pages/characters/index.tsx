@@ -10,6 +10,7 @@ import Button from '@/components/button'
 import Input, { InputLabel } from '@/components/input'
 import Select from '@/components/select'
 import { Character } from '@/lib/app.types'
+import List from '@/components/lists'
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -33,6 +34,11 @@ export default function Home() {
   // useEffect(() => {
   //   getCharacters()
   // }, [])
+
+  useEffect(() => {
+    console.log('Characters', characters)
+    console.log('Characters', characters.map((character) => isCharacter(character.character_data)))
+  }, [characters])
 
   async function getCharacters() {
     try {
@@ -80,44 +86,65 @@ export default function Home() {
           {characters.length > 0 ? (
             <Container>
               <h1>Characters</h1>
-              <ul>
+              <List>
                 {characters.map((character) => (
                   <li key={character.id}>
                     <a href={`/characters/${character.id}`}>
                       {isCharacter(character.character_data) &&
-                        <div>
-                          <h2>{character.name}</h2>
+                        <Container>
+                          <h2>{character.character_data.name}</h2>
                           <h3>Description</h3>
                           <p>{character.character_data.description}</p>
+                          <h3>Size</h3>
                           <p>{character.character_data.size}</p>
+                          <h3>Species</h3>
                           <p>{character.character_data.species}</p>
+                          <h3>Challenge Rating</h3>
                           <p>{character.character_data.challenge_rating}</p>
                           <h3>Attributes</h3>
-                          <p>{character.character_data.attributes.STR}</p>
-                          <p>{character.character_data.attributes.DEX}</p>
-                          <p>{character.character_data.attributes.CON}</p>
-                          <p>{character.character_data.attributes.INT}</p>
-                          <p>{character.character_data.attributes.WIS}</p>
-                          <p>{character.character_data.attributes.CHA}</p>
+                          <List direction={'column'}>
+                            <li>STR: {character.character_data.attributes.STR}</li>
+                            <li>DEX: {character.character_data.attributes.DEX}</li>
+                            <li>CON: {character.character_data.attributes.CON}</li>
+                            <li>INT: {character.character_data.attributes.INT}</li>
+                            <li>WIS: {character.character_data.attributes.WIS}</li>
+                            <li>CHA: {character.character_data.attributes.CHA}</li>
+                          </List>
                           <h3>Skills</h3>
-                          {Object.entries(character.character_data.skills).map(([key, value]) => 
-                            <p key={key}>{key}: {value}</p>
-                          )}
+                          {character.character_data.skills.map((skill, index) => (
+                            <div key={index}>
+                              <h5 id={`h-skill-${index}`}>Name</h5>
+                              <p aria-labelledby={`h-skill-${index}`}>{skill.skill}</p>
+                              <h5 id={`h-description-${index}`}>Description</h5>
+                              <p aria-labelledby={`h-description-${index}`}>{skill.description}</p>
+                            </div>
+                          ))}
+
                           <h3>Actions</h3>
-                          {Object.entries(character.character_data.actions).map(([key, value]) =>
-                            <p key={key}>{key}: {value}</p>
-                          )}
+                          {character.character_data.actions.map((action, index) => (
+                            <div key={index}>
+                              <h5 id={`h-action-${index}`}>Name</h5>
+                              <p aria-labelledby={`h-action-${index}`}>{action.action}</p>
+                              <h5 id={`h-description-${index}`}>Description</h5>
+                              <p aria-labelledby={`h-description-${index}`}>{action.description}</p>
+                            </div>
+                          ))}
                           <h3>Reactions</h3>
-                          {Object.entries(character.character_data.reactions).map(([key, value]) =>
-                            <p key={key}>{key}: {value}</p>
-                          )}
-                        </div>
+                          {character.character_data.reactions.map((reaction, index) => (
+                            <div key={index}>
+                              <h5 id="h-reaction-name">Name</h5>
+                              <p aria-labelledby="h-reaction">{reaction.reaction}</p>
+                              <h5 id="h-reaction-description">Description</h5>
+                              <p aria-labelledby="h-reaction-description">{reaction.description}</p>
+                            </div>
+                          ))}
+                        </Container>
                       }
                     
                     </a>
                   </li>
                 ))}
-              </ul>
+              </List>
             </Container>
           ) : (
             <Container>
@@ -150,21 +177,37 @@ export default function Home() {
   )
 }
 
+function isArray(value: any): value is any[] {
+  return Array.isArray(value);
+}
+
 function isCharacter(value: any): value is Character {
-  return value !== null
-    && typeof value === 'object'
-    && typeof value.name === 'string'
-    && typeof value.species === 'string'
-    && typeof value.challenge_rating === 'number'
-    && typeof value.attributes === 'object'
-    && typeof value.attributes.STR === 'number'
-    && typeof value.attributes.DEX === 'number'
-    && typeof value.attributes.CON === 'number'
-    && typeof value.attributes.INT === 'number'
-    && typeof value.attributes.WIS === 'number'
-    && typeof value.attributes.CHA === 'number'
-    && typeof value.skills === 'object'
-    && typeof value.actions === 'object'
-    && typeof value.reactions === 'object'
-    && typeof value.description === 'string';
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    typeof value.name === "string" &&
+    typeof value.species === "string" &&
+    typeof value.description === "string" &&
+    typeof value.size === "string" &&
+    typeof value.challenge_rating === "string" &&
+    typeof value.attributes === "object" &&
+    typeof value.attributes.STR === "number" &&
+    typeof value.attributes.DEX === "number" &&
+    typeof value.attributes.CON === "number" &&
+    typeof value.attributes.INT === "number" &&
+    typeof value.attributes.WIS === "number" &&
+    typeof value.attributes.CHA === "number" &&
+    isArray(value.skills) &&
+    value.skills.every((skill: any) => 
+      typeof skill.skill === "string" && typeof skill.description === "string"
+    ) &&
+    isArray(value.actions) &&
+    value.actions.every((action: any) =>
+      typeof action.action === "string" && typeof action.description === "string"
+    ) &&
+    isArray(value.reactions) &&
+    value.reactions.every((reaction: any) =>
+      typeof reaction.reaction === "string" && typeof reaction.description === "string"
+    )
+  );
 }
