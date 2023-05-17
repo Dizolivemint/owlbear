@@ -30,6 +30,6 @@ declare module 'styled-components' {
       medium: string;
       large: string;
       largest: string;
-    }
+    };
   }
 }
