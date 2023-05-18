@@ -157,7 +157,9 @@ export default function Home() {
                                   <p aria-labelledby="h-reaction-description">{reaction.description}</p>
                                 </div>
                               ))}
-                              <h3>Legendary Actions</h3>
+                              {character.character_data.legendary_actions && (
+                                <h3>Legendary Actions</h3>
+                              )}
                               {character.character_data.legendary_actions && (
                                 character.character_data.legendary_actions.map((legendaryAction, index) => (
                                   <div key={index}>
