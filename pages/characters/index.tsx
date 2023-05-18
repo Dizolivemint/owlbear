@@ -15,6 +15,7 @@ import Accordion from '@/components/accordion'
 import { Tab, Tabs } from '@/components/tabs'
 import Loader from '@/components/loader'
 import Image from 'next/image';
+import Checkbox from '@/components/checkbox'
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -22,19 +23,18 @@ export default function Home() {
   const [species, setSpecies] = useState<string>('')
   const [challengeRating, setChallengeRating] = useState<string>('')
   const [activeTab, setActiveTab] = useState<number>(0)
+  const [isLegendary, setIsLegendary] = useState<boolean>(false)
+  const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>([])
 
   const router = useRouter()
-
   const session = useSession()
 
   useEffect(() => {
-    // if (!session) {
-    //   router.push('/login')
-    // }
+    if (!session) {
+      router.push('/login')
+    }
     console.log('Session', session)
   }, [session, router])
-
-  const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>([])
 
   // useEffect(() => {
   //   getCharacters()
@@ -71,7 +71,8 @@ export default function Home() {
         body: JSON.stringify({
           size,
           species,
-          challengeRating
+          challengeRating,
+          isLegendary,
         }),
       })
       if (response.status !== 200) throw new Error('Error creating character!')
@@ -110,8 +111,8 @@ export default function Home() {
                                 width={200}
                               />
                               <h2>{character.character_data.name}</h2>
-                              <h3>Description</h3>
-                              <p>{character.character_data.description}</p>
+                              <h3>Background</h3>
+                              <p>{character.character_data.background || character.character_data.description}</p>
                               <h3>Appearance</h3>
                               <p>{character.character_data.appearance}</p>
                               <h3>Size</h3>
@@ -138,7 +139,6 @@ export default function Home() {
                                   <p aria-labelledby={`h-description-${index}`}>{skill.description}</p>
                                 </div>
                               ))}
-
                               <h3>Actions</h3>
                               {character.character_data.actions.map((action, index) => (
                                 <div key={index}>
@@ -157,6 +157,17 @@ export default function Home() {
                                   <p aria-labelledby="h-reaction-description">{reaction.description}</p>
                                 </div>
                               ))}
+                              <h3>Legendary Actions</h3>
+                              {character.character_data.legendary_actions && (
+                                character.character_data.legendary_actions.map((legendaryAction, index) => (
+                                  <div key={index}>
+                                    <h5 id={`h-legendary-action-${index}`}>Name</h5>
+                                    <p aria-labelledby={`h-legendary-action-${index}`}>{legendaryAction.legendary_action}</p>
+                                    <h5 id={`h-legendary-description-${index}`}>Description</h5>
+                                    <p aria-labelledby={`h-legendary-description-${index}`}>{legendaryAction.description}</p>
+                                  </div>
+                                ))
+                              )}
                             </Container>
                           </Accordion>
                         }
@@ -186,6 +197,9 @@ export default function Home() {
                   <Input type='text' id={'species'} value={species} onChange={(e) => setSpecies(e.target.value)} />
                   <InputLabel htmlFor="challengeRating">Challenge Rating</InputLabel>
                   <Input type='number' id={'challengeRating'} value={challengeRating} onChange={(e) => setChallengeRating(e.target.value)}/>
+                  <Checkbox id={'isLegendary'} isActive={isLegendary} isCircle={true} onChange={(e) => setIsLegendary(e.target.checked)}>
+                    Is Legendary?
+                  </Checkbox>
                   <Loader showLoader={loading}>
                     <Button type="submit">Create Character</Button>
                   </Loader>
@@ -209,7 +223,8 @@ function isCharacter(value: any): value is Character {
     typeof value === "object" &&
     typeof value.name === "string" &&
     typeof value.species === "string" &&
-    typeof value.description === "string" &&
+    (value.background === undefined || typeof value.background === "string") &&
+    (value.desciprtion === undefined || typeof value.description === "string") &&
     typeof value.appearance === "string" &&
     typeof value.size === "string" &&
     typeof value.challenge_rating === "string" &&
@@ -231,6 +246,14 @@ function isCharacter(value: any): value is Character {
     isArray(value.reactions) &&
     value.reactions.every((reaction: any) =>
       typeof reaction.reaction === "string" && typeof reaction.description === "string"
+    ) &&
+    (value.legendary_actions === undefined || isArray(value.legendary_actions)) &&
+    (value.legendary_actions === undefined ||
+      value.legendary_actions.every(
+        (legendary_action: any) =>
+          typeof legendary_action?.legendary_action === "string" &&
+          typeof legendary_action?.description === "string"
+      )
     )
   );
 }

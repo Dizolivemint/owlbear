@@ -62,7 +62,7 @@ type SelectOptionProps = {
   children: React.ReactNode;
 };
 
-const SelectOption: React.FC<SelectOptionProps> = ({ value, children }) => {
+export const SelectOption: React.FC<SelectOptionProps> = ({ value, children }) => {
   return (
     <option value={value}>
       {children}

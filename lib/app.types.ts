@@ -2,7 +2,8 @@ export interface Character {
   name?: string;
   appearance?: string;
   species: string;
-  description: string;
+  description?: string;
+  background?: string;
   size: string;
   challenge_rating: number;
   attributes: {
@@ -28,6 +29,12 @@ export interface Character {
   reactions: [
     {
       reaction: string;
+      description: string;
+    }
+  ];
+  legendary_actions?: [
+    {
+      legendary_action: string;
       description: string;
     }
   ];

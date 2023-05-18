@@ -34,7 +34,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       image_filename: characterResponse.imageUrl,
       user_id: userId
     }
-
     
     const { data, error } = await supabaseServerClient
       .from('characters')
