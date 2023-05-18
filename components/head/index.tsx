@@ -10,14 +10,22 @@ const HeadContent: React.FC<HeadContentProps> = (props) => {
       <meta name="description" content={props.description} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta property="og:title" content="AI Monster Generator" />
-        <meta
-          property="og:description"
-          content="DnD 5e Monster Generator and Battle Map"
-        />
-        <meta
-          property="og:image"
-          content="https://battle-map.vercel.com/owlbear.jpg"
-        />
+      <meta
+        property="og:description"
+        content="DnD 5e Monster Generator and Battle Map"
+      />
+      <meta
+        property="og:image"
+        content="https://battle-map.vercel.app/owlbear.jpg"
+      />
+      <meta property="og:image:width" content="400" />
+      <meta property="og:image:height" content="400" />
+      <meta property="og:url" content="https://battle-map.vercel.app" />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@dizolivemint" />
+      <meta name="twitter:creator" content="@dizolivemint" />
+      <meta name="twitter:title" content="AI Monster Generator" />
+      <meta name="twitter:description" content="DnD 5e Monster Generator and Battle Map" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
