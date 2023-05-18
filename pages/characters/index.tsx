@@ -105,6 +105,8 @@ export default function Home() {
                               <h2>{character.character_data.name}</h2>
                               <h3>Description</h3>
                               <p>{character.character_data.description}</p>
+                              <h3>Appearance</h3>
+                              <p>{character.character_data.appearance}</p>
                               <h3>Size</h3>
                               <p>{character.character_data.size}</p>
                               <h3>Species</h3>
@@ -201,6 +203,7 @@ function isCharacter(value: any): value is Character {
     typeof value.name === "string" &&
     typeof value.species === "string" &&
     typeof value.description === "string" &&
+    typeof value.appearance === "string" &&
     typeof value.size === "string" &&
     typeof value.challenge_rating === "string" &&
     typeof value.attributes === "object" &&
