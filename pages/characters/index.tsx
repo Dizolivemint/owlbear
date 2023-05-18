@@ -166,6 +166,7 @@ export default function Home() {
                 <form onSubmit={createCharacter}>
                   <InputLabel htmlFor="size">Size</InputLabel>
                   <Select id={'size'} value={size} onChange={(e) => setSize(e.target.value)}>
+                    <option value="tiny">Tiny</option>
                     <option value="small">Small</option>
                     <option value="medium">Medium</option>
                     <option value="large">Large</option>
