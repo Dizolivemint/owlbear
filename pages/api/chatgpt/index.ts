@@ -49,3 +49,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json(e);
   }
 };
+
+export const config = {
+  api: {
+    bodyParser: false,
+    timeout: 30000, // Set the desired timeout value (30 seconds in this example)
+  },
+};
