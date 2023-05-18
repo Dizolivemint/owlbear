@@ -90,7 +90,7 @@ export default function Account({ session }: { session: Session }) {
         />
     </Head>
     <Layout>
-      <Container>
+      <Container padding={'1rem'}>
         <Container>
           <InputLabel htmlFor="email">Email</InputLabel>
           <Input type="text" value={user.email} />

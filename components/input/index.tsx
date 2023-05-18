@@ -29,7 +29,7 @@ const StyledInput = styled.input<InputProps>`
   padding: 1rem;
   display: flex;
   flex-direction: ${(props) => (props.column ? 'column' : 'row')};
-  width: 100%;
+  width: calc(100% - 1rem);
   justify-content: center;
   margin: 1rem;
 `;
