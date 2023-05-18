@@ -19,14 +19,28 @@ export default function Login() {
     router.push('/profile');
   }
 
+  const getURL = () => {
+    let url =
+      process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+      'http://localhost:3000/';
+    url = url.includes('http') ? url : `https://${url}`;
+    // Make sure to including trailing `/`.
+    url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
+    return url;
+  };
+  
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
     setStatus('');
     event.preventDefault();
     setEmail(email.trim());
     const { data, error } = await supabase.auth.signInWithOtp({
-      email
-    })
+      email,
+      options: {
+        emailRedirectTo: getURL()
+      }
+    });
     if (data) {
       setLoading(false);
       setStatus('Check your email for a magic link to sign in.');
