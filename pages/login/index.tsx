@@ -5,6 +5,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Layout from '@/components/layout';
 import Button from '@/components/button';
 import Input, { InputLabel } from '@/components/input';
+import Container from '@/components/container';
 
 export default function Login() {
   const session = useSession()
@@ -43,18 +44,20 @@ export default function Login() {
       </Head>
       <main>
         <Layout navList={[]}>
-          <h1>Login</h1>
-          {status && <p>{status}</p>}
-          {loading && <p>Loading...</p>} 
-          {!loading && !status && (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <InputLabel htmlFor="email">Email</InputLabel>
-              <Input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)} />
-            </div>
-            <Button type={"submit"}>Send Magic Link</Button>
-          </form>
-          )}
+          <Container padding={'2rem'} center={true}>
+            <h1>Login</h1>
+            {status && <p>{status}</p>}
+            {loading && <p>Loading...</p>} 
+            {!loading && !status && (
+            <form onSubmit={handleSubmit}>
+              <div>
+                <InputLabel htmlFor="email">Email</InputLabel>
+                <Input type="email" id="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+              </div>
+              <Button type={"submit"}>Send Magic Link</Button>
+            </form>
+            )}
+          </Container>
         </Layout>
       </main>
     </>
