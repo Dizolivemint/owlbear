@@ -19,8 +19,10 @@ export default function App({ Component, pageProps }: AppProps<{
     >
       <ThemeProvider theme={myTheme}>
         <StyledComponentsRegistry>
-          <Component {...pageProps} />
-          <Analytics />
+          <>
+            <Component {...pageProps} />
+            <Analytics />
+          </>
         </StyledComponentsRegistry>
       </ThemeProvider>
     </SessionContextProvider>
