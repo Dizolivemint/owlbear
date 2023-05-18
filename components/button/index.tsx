@@ -32,8 +32,7 @@ const StyledButton = styled.button<ButtonProps>`
   padding: 1rem;
   display: flex;
   flex-direction: ${(props) => (props.column ? 'column' : 'row')};
-  width: fit-content;
-  font-size: 2rem;
+  width: 100%;
   justify-content: center;
   &:hover {
     cursor: pointer;

@@ -16,9 +16,7 @@ const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
             navList
           }/>
         </Container>
-        <Container>
-          {children}
-        </Container>
+        {children}
       </Container>
   );
 };

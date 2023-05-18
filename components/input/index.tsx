@@ -30,7 +30,6 @@ const StyledInput = styled.input<InputProps>`
   display: flex;
   flex-direction: ${(props) => (props.column ? 'column' : 'row')};
   width: 100%;
-  font-size: 2rem;
   justify-content: center;
   margin: 1rem;
 `;
@@ -79,7 +78,6 @@ type InputLabelProps = {
 
 const StyledLabel = styled.label<InputLabelProps>`
   color: ${props => props.color || props.theme.colors.textColor};
-  font-size: 2rem;
 `;
 
 export const InputLabel: React.FC<InputLabelProps> = ({ htmlFor, color, children }) => {

@@ -1,22 +1,23 @@
 import Head from 'next/head'
 import Layout from '@/components/layout'
-
+import Container from '@/components/container'
+import HeadContent from '@/components/head'
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Battle Map</title>
-        <meta name="description" content="Battle Map for use with Dungeons and Dragons 5e" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <HeadContent
+          title={'Dungeons and Dragons 5e - Character Generator and Battle Map'}
+          description={'Battle Map for use with Dungeons and Dragons 5e'}
+        />
       </Head>
       <main>
         <Layout>
-          <div>
+          <Container center={true} padding={'1rem'}>
             <h1>Welcome to Battle Map</h1>
-            <p>A battle map for Dungeons and Dragons 5e</p>
-          </div>
+            <p>A character generator and battle map for creating and running Dungeons and Dragons 5e encounters</p>
+          </Container>
         </Layout>
       </main>
     </>

@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient, Session } from '@supabase/auth-helpers-react'
 import { Database } from 'lib/database.types'
+import Head from 'next/head'
+import Layout from '@/components/layout'
+import Container from '@/components/container'
+import HeadContent from '@/components/head'
+import Button from '@/components/button'
+import Input, { InputLabel } from '@/components/input'
+
 type Profiles = Database['public']['Tables']['profiles']['Row']
 
 export default function Account({ session }: { session: Session }) {
@@ -75,36 +82,45 @@ export default function Account({ session }: { session: Session }) {
   }
 
   return (
-    <div className="form-widget">
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="displayName">Display Name</label>
-        <input
-          id="displayName"
-          type="text"
-          value={display_name || ''}
-          onChange={(e) => setDisplayName(e.target.value)}
+    <>
+    <Head>
+      <HeadContent
+          title={'Dungeons and Dragons 5e - Character Generator and Battle Map'}
+          description={'Battle Map for use with Dungeons and Dragons 5e'}
         />
-      </div>
+    </Head>
+    <Layout>
+      <Container>
+        <Container>
+          <InputLabel htmlFor="email">Email</InputLabel>
+          <Input type="text" value={user.email} />
+        </Container>
+        <Container>
+          <InputLabel htmlFor="displayName">Display Name</InputLabel>
+          <Input
+            id="displayName"
+            type="text"
+            value={display_name || ''}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+        </Container>
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() => updateProfile({ display_name, avatar_url })}
-          disabled={loading}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
+        <Container>
+          <Button
+            onClick={() => updateProfile({ display_name, avatar_url })}
+            disabled={loading}
+          >
+            {loading ? 'Loading ...' : 'Update'}
+          </Button>
+        </Container>
 
-      <div>
-        <button className="button block" onClick={() => supabase.auth.signOut()}>
-          Sign Out
-        </button>
-      </div>
-    </div>
+        <Container>
+          <Button onClick={() => supabase.auth.signOut()}>
+            Sign Out
+          </Button>
+        </Container>
+      </Container>
+    </Layout>
+  </>
   )
 }

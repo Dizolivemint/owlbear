@@ -28,7 +28,6 @@ const StyledSelect = styled.select<SelectProps>`
   display: flex;
   flex-direction: ${(props) => (props.column ? 'column' : 'row')};
   width: 100%;
-  font-size: 2rem;
   justify-content: center;
   margin: 1rem;
 `;
@@ -79,7 +78,6 @@ type SelectLabelProps = {
 
 const StyledLabel = styled.label<SelectLabelProps>`
   color: ${props => props.color || props.theme.colors.textColor};
-  font-size: 2rem;
 `;
 
 export const SelectLabel: React.FC<SelectLabelProps> = ({ htmlFor, color, children }) => {

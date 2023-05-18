@@ -23,15 +23,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const characterResponse = await client.generateCharacter(chatGPTRequest);
     console.log('Character generated:', characterResponse);
     const response = await supabaseServerClient.auth.getUser()
-    const characterJson: Json = await JSON.parse(JSON.stringify(characterResponse))
+    const characterJson: Json = await JSON.parse(JSON.stringify(characterResponse.character))
     const userId = response.data.user?.id
     if (!userId) {
       return res.status(500).json({ error: 'No user id provided' })
     }
+
     const character: Database['public']['Tables']['characters']['Insert'] = {
       character_data: characterJson,
+      image_filename: characterResponse.imageUrl,
       user_id: userId
     }
+
+    
     const { data, error } = await supabaseServerClient
       .from('characters')
       .insert([character])
