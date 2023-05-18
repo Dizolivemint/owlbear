@@ -31,10 +31,10 @@ export class ChatGPTClient {
   
     const { size, species, challengeRating, isLegendary } = JSON.parse(request);
 
-    const prompt = isLegendary ? 
-    `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }] }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
-    :
+    const prompt = isLegendary ?
     `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }], "legendary_actions": [{ "legendary_action": string, "description": string }] }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
+    :
+    `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }] }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
   
     const requestBody = {
       "model": "text-davinci-003",
