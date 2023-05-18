@@ -14,6 +14,7 @@ import List from '@/components/lists'
 import Accordion from '@/components/accordion'
 import { Tab, Tabs } from '@/components/tabs'
 import Loader from '@/components/loader'
+import Image from 'next/image';
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -102,6 +103,12 @@ export default function Home() {
                         {isCharacter(character.character_data) &&
                           <Accordion title={character.character_data.name} imageUrl={character.image_filename || ''}>
                             <Container>
+                              <Image 
+                                src={character.image_filename || ''} 
+                                alt={character.character_data.name || ''} 
+                                height={200}
+                                width={200}
+                              />
                               <h2>{character.character_data.name}</h2>
                               <h3>Description</h3>
                               <p>{character.character_data.description}</p>
