@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  background-color: #1d1e2c;
 `;
 
 const MainContent = styled.div`

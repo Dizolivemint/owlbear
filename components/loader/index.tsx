@@ -8,10 +8,11 @@ interface LoaderProps {
 
 const LoaderWrapper = styled.div<LoaderProps>`
   position: relative;
+  margin-top: 2rem;
+`;
 
-  & > * {
-    visibility: ${props => (props.showLoader ? 'hidden' : 'visible')};
-  }
+const LoadHidden = styled.div<LoaderProps>`
+  display: ${props => (props.showLoader ? 'none' : 'block')};
 `;
 
 const LoaderOverlay = styled.div<LoaderProps>`
@@ -38,7 +39,7 @@ const spinAnimation = keyframes`
 const LoaderAnimation = styled.div`
   width: 40px;
   height: 40px;
-  border: 4px solid #333;
+  border: 4px solid #fff;
   border-top-color: transparent;
   border-radius: 50%;
   animation: ${spinAnimation} 0.8s linear infinite;
@@ -50,9 +51,12 @@ const Loader: React.FC<LoaderProps> = ({ showLoader, children }) => {
       <LoaderOverlay showLoader={showLoader}>
         <LoaderAnimation />
       </LoaderOverlay>
-      {children}
+      <LoadHidden showLoader={showLoader}>
+        {children}
+      </LoadHidden>
     </LoaderWrapper>
   );
 };
 
 export default Loader;
+
