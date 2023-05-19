@@ -12,7 +12,7 @@ const LoaderWrapper = styled.div<LoaderProps>`
 `;
 
 const LoadHidden = styled.div<LoaderProps>`
-  display: ${props => (props.showLoader ? 'none' : 'block')};
+  visibility: ${props => (props.showLoader ? 'hidden' : 'visible')};
 `;
 
 const LoaderOverlay = styled.div<LoaderProps>`
@@ -24,7 +24,6 @@ const LoaderOverlay = styled.div<LoaderProps>`
   display: ${props => (props.showLoader ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.8);
 `;
 
 const spinAnimation = keyframes`
