@@ -175,7 +175,7 @@ export default function Home() {
                             </Container>
                           </Accordion>
                         ) : (
-                          <div style={{ border: '1px solid red', padding: '1rem' }}>
+                          <div style={{ border: '1px solid red', padding: '1rem', marginBottom: '1rem' }}>
                             <p>One of your character's data is off (most likely due to the AI not following directions). Please let me know, so I can look into it.</p>
                           </div>
                         )}
