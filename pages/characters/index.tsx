@@ -25,6 +25,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<number>(0)
   const [isLegendary, setIsLegendary] = useState<boolean>(false)
   const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>([])
+  const [error, setError] = useState<string>('')
 
   const router = useRouter()
   const session = useSession()
@@ -62,10 +63,10 @@ export default function Home() {
 
   async function createCharacter(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError('')
     setLoading(true)
     if (!size || !species || !challengeRating) return
     try {
-      
       const response = await fetch('/api/chatgpt', {
         method: 'POST',
         body: JSON.stringify({
@@ -75,8 +76,9 @@ export default function Home() {
           isLegendary,
         }),
       })
-      if (response.status !== 200) throw new Error('Error creating character!')
-      const data = (await response.json()) as Database['public']['Tables']['characters']['Row'][]
+      if (response.status !== 200) {
+        setError('Error generating character!')
+      }
       await getCharacters()
     } catch (error) {
       console.error('Error generating character:', error)
@@ -205,6 +207,13 @@ export default function Home() {
                   <Loader showLoader={loading}>
                     <Button type="submit">Create Character</Button>
                   </Loader>
+                  {error && (
+                    <Container>
+                      <p>{error}</p>
+                      <p>Please try again...</p>
+                      <p>AI can have a mind of its own.</p>
+                    </Container>
+                  )}
                 </form>
               </Tab>
             </Tabs>

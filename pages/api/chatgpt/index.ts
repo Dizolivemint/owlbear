@@ -21,6 +21,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const client = new ChatGPTClient();
     console.log('Attempting to generate character...');
     const characterResponse = await client.generateCharacter(chatGPTRequest);
+    if (characterResponse.error) {
+      return res.status(500).json({ error: characterResponse.error });
+    }
     console.log('Character generated:', characterResponse);
     const response = await supabaseServerClient.auth.getUser()
     const characterJson: Json = await JSON.parse(JSON.stringify(characterResponse.character))

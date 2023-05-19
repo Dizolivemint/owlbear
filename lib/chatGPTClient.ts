@@ -3,8 +3,9 @@ import { supabase } from '@/lib/supabaseClient';
 import sharp from 'sharp';
 
 type GenerateCharacterResponse = {
-  character: Character;
-  imageUrl: string;
+  character?: Character;
+  imageUrl?: string;
+  error?: string;
 }
 
 export class ChatGPTClient {
@@ -44,107 +45,101 @@ export class ChatGPTClient {
       "logprobs": null
     };
 
-    let retries = 0;
+    try {
+      const response = await fetch(this.apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+        },
+        body: JSON.stringify(requestBody),
+      });
 
-    while (retries < 2) {
-      try {
-        const response = await fetch(this.apiEndpoint, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.apiKey}`,
-          },
-          body: JSON.stringify(requestBody),
-        });
-  
-        if (!response.ok || !response.body) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-
-        
-        const uint8ArrayResponseBody = await response.arrayBuffer(); // Get response body as Uint8Array
-        const responseBody = JSON.parse(new TextDecoder().decode(uint8ArrayResponseBody)); // Parse the JSON response
-  
-        console.log('responseBody', responseBody)
-
-        const character: Character = {
-          name: '',
-          species: species,
-          challenge_rating: challengeRating,
-          attributes: {
-            STR: 0,
-            DEX: 0,
-            CON: 0,
-            INT: 0,
-            WIS: 0,
-            CHA: 0,
-          },
-          skills: [{ skill: '', description: '' }],
-          actions: [{ action: '', description: '' }],
-          reactions: [{ reaction: '', description: ''}],
-          description: '',
-          background: '',
-          size,
-          appearance: '',
-        };
-  
-        // Get the first choice text, trim it, sanitize it, and parse it as JSON
-        const choiceText = responseBody.choices[0].text.trim();
-        const jsonStartIndex = choiceText.indexOf('{');
-        const jsonEndIndex = choiceText.lastIndexOf('}') + 1;
-        const trimmedJson = choiceText.slice(jsonStartIndex, jsonEndIndex);
-        const parsedData = JSON.parse(trimmedJson);
-
-        // Assign the parsed values to the character object
-        character.attributes = getPropInsensitive(parsedData, 'attributes');
-        if (!character.attributes || Object.values(character.attributes).some(val => !val)) {
-          throw new Error('Attributes are empty or undefined');
-        }
-
-        character.skills = getPropInsensitive(parsedData, 'skills');
-        if (!character.skills || Object.values(character.skills).some(val => !val)) {
-          throw new Error('Skills are empty or undefined');
-        }
-
-        character.actions = getPropInsensitive(parsedData, 'actions');
-        if (!character.actions || Object.values(character.actions).some(val => !val)) {
-          throw new Error('Actions are empty or undefined');
-        }
-
-        character.reactions = getPropInsensitive(parsedData, 'reactions');
-
-        character.background = getPropInsensitive(parsedData, 'background');
-        if (!character.background) {
-          throw new Error('Background is empty or undefined');
-        }
-
-        character.name = getPropInsensitive(parsedData, 'name');
-        if (!character.name) {
-          throw new Error('Name is empty or undefined');
-        }
-
-        
-        character.appearance = getPropInsensitive(parsedData, 'appearance');
-        if (!character.appearance) {
-          throw new Error('Appearance is empty or undefined');
-        }
-
-        // Get image url
-        const images = await this.createImage(character.name, character.appearance);
-        if (!images) {
-          throw new Error('Image url is empty or undefined');
-        }
-        const imageUrl = images[0];
-        console.log('imageUrl', imageUrl);
-
-        return { character, imageUrl };
-      } catch (error) {
-        console.error('Error generating character:', error);
-        retries++;
-        console.log(`Retrying... attempt ${retries}`);
+      if (!response.ok || !response.body) {
+        throw new Error(`Error: ${response.statusText}`);
       }
+
+      
+      const uint8ArrayResponseBody = await response.arrayBuffer(); // Get response body as Uint8Array
+      const responseBody = JSON.parse(new TextDecoder().decode(uint8ArrayResponseBody)); // Parse the JSON response
+
+      console.log('responseBody', responseBody)
+
+      const character: Character = {
+        name: '',
+        species: species,
+        challenge_rating: challengeRating,
+        attributes: {
+          STR: 0,
+          DEX: 0,
+          CON: 0,
+          INT: 0,
+          WIS: 0,
+          CHA: 0,
+        },
+        skills: [{ skill: '', description: '' }],
+        actions: [{ action: '', description: '' }],
+        reactions: [{ reaction: '', description: ''}],
+        description: '',
+        background: '',
+        size,
+        appearance: '',
+      };
+
+      // Get the first choice text, trim it, sanitize it, and parse it as JSON
+      const choiceText = responseBody.choices[0].text.trim();
+      const jsonStartIndex = choiceText.indexOf('{');
+      const jsonEndIndex = choiceText.lastIndexOf('}') + 1;
+      const trimmedJson = choiceText.slice(jsonStartIndex, jsonEndIndex);
+      const parsedData = JSON.parse(trimmedJson);
+
+      // Assign the parsed values to the character object
+      character.attributes = getPropInsensitive(parsedData, 'attributes');
+      if (!character.attributes || Object.values(character.attributes).some(val => !val)) {
+        throw new Error('Attributes are empty or undefined');
+      }
+
+      character.skills = getPropInsensitive(parsedData, 'skills');
+      if (!character.skills || Object.values(character.skills).some(val => !val)) {
+        throw new Error('Skills are empty or undefined');
+      }
+
+      character.actions = getPropInsensitive(parsedData, 'actions');
+      if (!character.actions || Object.values(character.actions).some(val => !val)) {
+        throw new Error('Actions are empty or undefined');
+      }
+
+      character.reactions = getPropInsensitive(parsedData, 'reactions');
+
+      character.background = getPropInsensitive(parsedData, 'background');
+      if (!character.background) {
+        throw new Error('Background is empty or undefined');
+      }
+
+      character.name = getPropInsensitive(parsedData, 'name');
+      if (!character.name) {
+        throw new Error('Name is empty or undefined');
+      }
+
+      
+      character.appearance = getPropInsensitive(parsedData, 'appearance');
+      if (!character.appearance) {
+        throw new Error('Appearance is empty or undefined');
+      }
+
+      // Get image url
+      const images = await this.createImage(character.name, character.appearance);
+      if (!images) {
+        throw new Error('Image url is empty or undefined');
+      }
+      const imageUrl = images[0];
+      console.log('imageUrl', imageUrl);
+
+      return { character, imageUrl };
+    } catch (error) {
+      console.error('Error generating character:', error);
+      return { error: 'Error generating character' };
     }
-    throw new Error(`Error generating character after ${retries} attempts`);
   }
 
   async createImage(name: string, description: string) {
