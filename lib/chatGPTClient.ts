@@ -112,7 +112,7 @@ export class ChatGPTClient {
 
       character.reactions = getPropInsensitive(parsedData, 'reactions');
 
-      character.legendary_actions = getPropInsensitive(parsedData, 'legendary_actions');
+      if (isLegendary) character.legendary_actions = getPropInsensitive(parsedData, 'legendary_actions');
 
       character.background = getPropInsensitive(parsedData, 'background');
       if (!character.background) {
