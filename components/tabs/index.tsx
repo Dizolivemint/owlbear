@@ -41,14 +41,12 @@ const Tab: React.FC<TabProps> = ({ title, children }) => {
 };
 
 const Tabs: React.FC<TabsProps> = (props: TabsProps) => {
-  const { children } = props;
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const { children, activeTabIndex: initialActiveTabIndex = 0 } = props;
+  const [activeTabIndex, setActiveTabIndex] = useState(initialActiveTabIndex);
 
   useEffect(() => {
-    if (props.activeTabIndex) {
-      setActiveTabIndex(props.activeTabIndex);
-    }
-  }, [props.activeTabIndex]);
+    setActiveTabIndex(initialActiveTabIndex);
+  }, [initialActiveTabIndex]);
 
   const handleTabClick = (index: number) => {
     setActiveTabIndex(index);
