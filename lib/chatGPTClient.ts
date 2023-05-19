@@ -37,6 +37,7 @@ export class ChatGPTClient {
     :
     `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }] }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
   
+    console.log('prompt', prompt)
     const requestBody = {
       "model": "text-davinci-003",
       "prompt": prompt,
@@ -110,6 +111,8 @@ export class ChatGPTClient {
       }
 
       character.reactions = getPropInsensitive(parsedData, 'reactions');
+
+      character.legendary_actions = getPropInsensitive(parsedData, 'legendary_actions');
 
       character.background = getPropInsensitive(parsedData, 'background');
       if (!character.background) {
