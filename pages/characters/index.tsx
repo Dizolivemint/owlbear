@@ -97,13 +97,13 @@ export default function Home() {
       <main>
         <Layout>
           <Container center={true}>
-            <Tabs activeTabIndex={activeTab}>
+            <Tabs activeTabIndex={activeTab} key={activeTab}>
               <Tab title={'Characters'}>
                 {characters.length > 0 ? (
                   <List>
                     {characters.map((character) => (
                       <li key={character.id}>
-                        {isCharacter(character.character_data) &&
+                        {isCharacter(character.character_data) ? (
                           <Accordion title={character.character_data.name} imageUrl={character.image_filename || ''}>
                             <Container>
                               <Image 
@@ -174,7 +174,11 @@ export default function Home() {
                               )}
                             </Container>
                           </Accordion>
-                        }
+                        ) : (
+                          <div style={{ border: '1px solid red', padding: '1rem' }}>
+                            <p>One of your character's data is off (most likely due to the AI not following directions). Please let me know, so I can look into it.</p>
+                          </div>
+                        )}
                       </li>
                     ))}
                   </List>
