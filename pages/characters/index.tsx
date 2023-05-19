@@ -89,8 +89,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Battle Map</title>
-        <meta name="description" content="Battle Map Character List for Dungeons and Dragons 5e" />
+        <title>AI Monster Generator</title>
+        <meta name="description" content="Generate a monster or NPC of any type" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

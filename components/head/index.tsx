@@ -12,20 +12,20 @@ const HeadContent: React.FC<HeadContentProps> = (props) => {
       <meta property="og:title" content="AI Monster Generator" />
       <meta
         property="og:description"
-        content="DnD 5e Monster Generator and Battle Map"
+        content="DnD 5e Monster Generator and Owlbear"
       />
       <meta
         property="og:image"
-        content="https://battle-map.vercel.app/owlbear.jpg"
+        content="https://owlbear.online/owlbear.jpg"
       />
       <meta property="og:image:width" content="400" />
       <meta property="og:image:height" content="400" />
-      <meta property="og:url" content="https://battle-map.vercel.app" />
+      <meta property="og:url" content="https://owlbear.online" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@dizolivemint" />
       <meta name="twitter:creator" content="@dizolivemint" />
       <meta name="twitter:title" content="AI Monster Generator" />
-      <meta name="twitter:description" content="DnD 5e Monster Generator and Battle Map" />
+      <meta name="twitter:description" content="DnD 5e Monster Generator and Owlbear" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

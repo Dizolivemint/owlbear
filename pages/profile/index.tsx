@@ -85,8 +85,8 @@ export default function Account({ session }: { session: Session }) {
     <>
     <Head>
       <HeadContent
-          title={'Dungeons and Dragons 5e - Character Generator and Battle Map'}
-          description={'Battle Map for use with Dungeons and Dragons 5e'}
+          title={'Dungeons and Dragons 5e - Character Generator and Owlbear'}
+          description={'Owlbear for use with Dungeons and Dragons 5e'}
         />
     </Head>
     <Layout>

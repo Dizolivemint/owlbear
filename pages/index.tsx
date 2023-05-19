@@ -8,15 +8,15 @@ export default function Home() {
     <>
       <Head>
         <HeadContent
-          title={'Dungeons and Dragons 5e - Character Generator and Battle Map'}
-          description={'Battle Map for use with Dungeons and Dragons 5e'}
+          title={'AI Monster Generator'}
+          description={'Quickly generate completely unique monsters for you game or campaign.'}
         />
       </Head>
       <main>
         <Layout>
           <Container center={true} padding={'1rem'}>
-            <h1>Welcome to Battle Map</h1>
-            <p>A character generator and battle map for creating and running Dungeons and Dragons 5e encounters</p>
+            <h1>Welcome to Owlbear Online</h1>
+            <p>A Monster/NPC generator.</p>
           </Container>
         </Layout>
       </main>

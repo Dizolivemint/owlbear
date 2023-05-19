@@ -1,8 +1,8 @@
 
 
-# Battle Map App
+# Owlbear App
 
-The Battle Map App is a web-based tool for simulating battle maps in Dungeons and Dragons and other tabletop roleplaying games. The app allows users to create and manage maps, add and move player characters and NPCs, track game time, and manage status effects and events during combat.
+The Owlbear App is a web-based tool for simulating Owlbears in Dungeons and Dragons and other tabletop roleplaying games. The app allows users to create and manage maps, add and move player characters and NPCs, track game time, and manage status effects and events during combat.
 
 ## Features
 
@@ -15,9 +15,9 @@ The Battle Map App is a web-based tool for simulating battle maps in Dungeons an
 
 ## Requirements
 
-The Battle Map App is built using Supabase, a PostgreSQL-based open source Firebase alternative. To run the app, you will need:
+The Owlbear App is built using Supabase, a PostgreSQL-based open source Firebase alternative. To run the app, you will need:
 
-1. Clone the repository: `git clone https://github.com/dizolivemint/battle-map.git`
+1. Clone the repository: `git clone https://github.com/dizolivemint/Owlbear.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 
@@ -37,7 +37,7 @@ Make sure that your Supabase database is set up correctly and that you have the 
     
 ## Contributing
 
-We welcome contributions from the community! To contribute to Battle Map, follow these steps:
+We welcome contributions from the community! To contribute to Owlbear, follow these steps:
 
 1. Fork the repository
 2. Make your changes
