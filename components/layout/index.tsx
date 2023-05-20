@@ -1,5 +1,5 @@
 import Container from "@/components/container";
-import Nav from "@/components/lists/nav";
+import Nav from "@/components/nav";
 import styled from "styled-components";
 
 type LayoutProps = {

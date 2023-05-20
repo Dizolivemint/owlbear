@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
 import { useSession } from '@supabase/auth-helpers-react';
 import Logo from '@/components/logo';
+import { useRouter } from 'next/router';
 
 const NavContainer = styled.nav`
   background-color: #2e5d41;
@@ -70,7 +71,7 @@ const Nav = (props: NavProps) => {
   const session = useSession();
   const navList = session
     ? [
-        { name: 'Characters', href: '/characters' },
+        { name: 'Monsters', href: '/monsters' },
         { name: 'Maps', href: '/maps' },
         { name: 'Profile', href: '/profile' },
       ]
@@ -80,17 +81,45 @@ const Nav = (props: NavProps) => {
       ];
 
   const handleSignOut = async () => {
-    console.log('signing out');
-    const { error } = await supabase.auth.signOut();
+    const token = session?.access_token;
+
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+
+    const response = await fetch('/api/signout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token })
+    });
+
+    if (!response.ok) {
+      console.error('Error signing out');
+      return;
+    }
+
+    const { error } = await supabase.auth.signOut()
 
     if (error) {
-      console.error('Error signing out:', error.message);
+      console.error('Error signing out');
+      return;
     }
+
+    console.log('Signed out successfully');
+    document.cookie = "sb-refresh-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "sb-access-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "supabase-auth-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.reload();
   };
 
   return (
     <NavContainer>
-      <Logo />
+      <Link href="/">
+        <Logo />
+      </Link>
       <NavList>
         {navList.map((item, index) => (
           <NavItem key={index}>

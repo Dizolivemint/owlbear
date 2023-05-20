@@ -98,7 +98,7 @@ export default function Home() {
         <Layout>
           <Container center={true}>
             <Tabs activeTabIndex={activeTab} key={activeTab}>
-              <Tab title={'Characters'}>
+              <Tab title={'Monsters'}>
                 {characters.length > 0 ? (
                   <List>
                     {characters.map((character) => (
@@ -209,7 +209,7 @@ export default function Home() {
                     Is Legendary?
                   </Checkbox>
                   <Loader showLoader={loading}>
-                    <Button type="submit">Create Character</Button>
+                    <Button type="submit">Create Monster</Button>
                   </Loader>
                   {error && (
                     <Container>
