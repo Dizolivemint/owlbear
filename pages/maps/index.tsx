@@ -22,7 +22,7 @@ export default function Account({ session }: { session: Session }) {
     <Layout>
       <Container center={true}>
         <h1>Maps</h1>
-        <h2>Coming soon!</h2>
+        <h2>currently just some brain gas</h2>
       </Container>
     </Layout>
   </>
