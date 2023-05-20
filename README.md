@@ -6,7 +6,7 @@ The Owlbear App is a web-based tool for simulating Owlbears in Dungeons and Drag
 
 ## Features
 
-- Create characters that include an image and stats
+- Create monsters that include an image and stats
 - Create and manage maps using Supabase to store map images and player character positions.
 - Add and move player characters and NPCs on the map, and track their hit points, initiative, and movement speed.
 - Track game time during combat using the current_game_time field in the sessions table, which allows for adjustments based on seconds, minutes, or hours using the INTERVAL keyword.
