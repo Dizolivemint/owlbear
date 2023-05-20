@@ -1,5 +1,6 @@
 import Container from "@/components/container";
 import Nav from "@/components/nav";
+import Link from "next/link";
 import styled from "styled-components";
 
 type LayoutProps = {
@@ -20,9 +21,10 @@ const MainContent = styled.div`
 `;
 
 const FooterWrapper = styled.footer`
+  display: flex;
+  justify-content: space-around;
   background-color: #2e5d41;
   padding: 20px;
-  text-align: center;
 `;
 
 const Copyright = styled.p`
@@ -30,11 +32,14 @@ const Copyright = styled.p`
 `;
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
   return (
     <FooterWrapper>
-      <Copyright>&copy; {currentYear} Miles Exner</Copyright>
+      <Link href="https://github.com/Dizolivemint/owlbear">
+        Contribute
+      </Link>
+      <Link href="https://github.com/Dizolivemint/owlbear/issues">
+        Issues
+      </Link>
     </FooterWrapper>
   );
 };
