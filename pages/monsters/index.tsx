@@ -185,7 +185,7 @@ export default function Home() {
                 ) : (
                   <Container>
                     <Loader showLoader={loading}>
-                      <Button onClick={getCharacters}>Load Characters</Button>
+                      <Button onClick={getCharacters}>Load Monsters</Button>
                     </Loader>
                   </Container>
                 )}

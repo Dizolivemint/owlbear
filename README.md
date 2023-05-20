@@ -1,23 +1,21 @@
-
-
 # Owlbear App
 
-The Owlbear App is a web-based tool for simulating Owlbears in Dungeons and Dragons and other tabletop roleplaying games. The app allows users to create and manage maps, add and move player characters and NPCs, track game time, and manage status effects and events during combat.
+The Owlbear App is a web-based tool for simulating Owlbears in Dungeons and Dragons and other tabletop roleplaying games. The app will all users to create and manage maps, add and move player characters and NPCs, track game time, and manage status effects and events during combat.
 
 ## Features
 
 - Create monsters that include an image and stats
-- Create and manage maps using Supabase to store map images and player character positions.
-- Add and move player characters and NPCs on the map, and track their hit points, initiative, and movement speed.
-- Track game time during combat using the current_game_time field in the sessions table, which allows for adjustments based on seconds, minutes, or hours using the INTERVAL keyword.
-- Manage status effects and events during combat using the status_effects table, which tracks the duration of effects and allows for scheduling events to occur at specific times during the session.
-- Support for multiple factions and characters belonging to multiple factions using the factions and faction_members tables.
+- Create and manage maps using Supabase to store map images and player character positions (TODO).
+- Add and move player characters and NPCs on the map, and track their hit points, initiative, and movement speed (TODO).
+- Track game time during combat using the current_game_time field in the sessions table, which allows for adjustments based on seconds, minutes, or hours using the INTERVAL keyword (TODO).
+- Manage status effects and events during combat using the status_effects table, which tracks the duration of effects and allows for scheduling events to occur at specific times during the session (TODO).
+- Support for multiple factions and characters belonging to multiple factions using the factions and faction_members tables (TODO).
 
 ## Requirements
 
 The Owlbear App is built using Supabase, a PostgreSQL-based open source Firebase alternative. To run the app, you will need:
 
-1. Clone the repository: `git clone https://github.com/dizolivemint/Owlbear.git`
+1. Clone the repository: `git clone https://github.com/Dizolivemint/owlbear.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 
@@ -40,9 +38,11 @@ Make sure that your Supabase database is set up correctly and that you have the 
 We welcome contributions from the community! To contribute to Owlbear, follow these steps:
 
 1. Fork the repository
-2. Make your changes
-3. Write unit tests
-4. Submit a pull request
+2. Setup your own Supabase database (TODO: an easy way to do this, but I can help for now)
+3. Create a ChatGPT API account
+4. Make your changes
+5. Write unit tests
+6. Submit a pull request
 
 ## License
 
