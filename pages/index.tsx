@@ -38,8 +38,8 @@ export default function Home() {
               <h3>Step 3 - View your Monsters</h3>
               <ol style={{marginLeft: '4rem'}}>
                 <li>Go back to the Monsters tab to see your monsters (I know the UX sUX).</li>
-                <li>It costs to run all of this, so at some point, it may cost to add more monsters. So, abuse the hell out of this while I'm paying for it. I won't delete any of your monsters (not on purpose anyways).</li>
-                <li>Eventually, you will be able to delete and edit your monsters all by yourself.</li>
+                <li>Select the monster you want to see.</li>
+                <li>Eventually, you will be able to edit it and add HP and movement speed.</li>
               </ol>
             </Container>
           </Container>
