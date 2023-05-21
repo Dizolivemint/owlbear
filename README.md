@@ -1,6 +1,6 @@
 # Owlbear App
 
-The Owlbear App is a web-based tool for simulating Owlbears in Dungeons and Dragons and other tabletop roleplaying games. The app will all users to create and manage maps, add and move player characters and NPCs, track game time, and manage status effects and events during combat.
+The Owlbear App is a web-based tool for simulating encounters in Dungeons and Dragons and other tabletop roleplaying games. The app will all users to create and manage maps, add and move player characters and NPCs, track game time, and manage status effects and events during combat.
 
 ## Features
 
