@@ -69,14 +69,8 @@ export class ChatGPTClient {
   
     const { size, species, challengeRating, isLegendary } = JSON.parse(request);
 
-    const prompt = isLegendary ?
-    `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }], "legendary_actions": [{ "legendary_action": string, "description": string }] }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
-    :
-    `Create a Dungeons and Dragons 5e ${size} ${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }] }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
-  
-    console.log('prompt', prompt)
-    
-    
+    const prompt = `Create a Dungeons and Dragons 5e${species} with the challenge rating of ${challengeRating}. Present the data in the following JSON string format in one line (i.e., no line breaks): { "name": string, "background": string, "appearance": string, "attributes": { "STR": number, "DEX": number, "CON": number, "INT": number, "WIS": number, "CHA": number }, "skills": [{ "skill": string, "description": string }], "actions": [{ "action": string, "description": string }], "reactions": [{ "reaction": string, "description": string }]${isLegendary && ', "legendary_actions": [{ "legendary_action": string, "description": string }]'} }. When applicable, skill, action, and reaction descriptions should include the dice modifier (e.g., +5) or dice roll (e.g., 2d8) and the damage type (e.g., slashing, fire).`
+      
     const responseBody = await this.requestGPT(prompt);
     if (responseBody.error) {
       throw new Error(responseBody.error);
@@ -156,6 +150,7 @@ export class ChatGPTClient {
       throw new Error(stableDiffusionPromptResponse.error);
     }
     const stableDiffusionPrompt = stableDiffusionPromptResponse.choices[0].text.trim();
+    console.log('Stable Diffusion Prompt', stableDiffusionPrompt);
 
     // Get image url
     const images = await this.createImage(character.name, stableDiffusionPrompt);

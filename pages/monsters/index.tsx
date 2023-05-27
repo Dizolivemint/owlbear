@@ -215,8 +215,7 @@ export default function Home() {
                   {error && (
                     <Container>
                       <p>{error}</p>
-                      <p>Please try again...</p>
-                      <p>AI can have a mind of its own.</p>
+                      <p>Please try again later...</p>
                     </Container>
                   )}
                 </form>
