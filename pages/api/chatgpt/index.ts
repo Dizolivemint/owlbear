@@ -35,6 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const character: Database['public']['Tables']['characters']['Insert'] = {
       character_data: characterJson,
       image_filename: characterResponse.imageUrl,
+      image_fetch_url: characterResponse.imageFetchUrl,
       user_id: userId
     }
     

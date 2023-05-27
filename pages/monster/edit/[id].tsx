@@ -5,6 +5,8 @@ import Container from '@/components/container';
 import Image from 'next/image';
 import List from '@/components/lists';
 import { useEffect, useState } from 'react';
+import Loader from '@/components/loader';
+import Button from '@/components/button';
 
 const characterPlaceholder: Database['public']['Tables']['characters']['Row'] = {
   id: -1,
@@ -43,10 +45,14 @@ const characterPlaceholder: Database['public']['Tables']['characters']['Row'] = 
   hit_points: 0,
   initiative: 0,
   movement_speed: 0,
+  image_fetch_url: null,
+  public: false,
 }
 
 export default function CharacterEditPage () {
   const [character, setCharacter] = useState<Database['public']['Tables']['characters']['Row']>(characterPlaceholder);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isQeuedImage, setIsQeuedImage] = useState<boolean>(false);
 
   const router = useRouter();
   const { id } = router.query;
@@ -57,15 +63,32 @@ export default function CharacterEditPage () {
   }, [id])
   
   async function getCharacters(id: string | string[] | undefined) {
+    setLoading(true);
     if (!id) return console.log('No id');
     try {
       const response = await fetch(`/api/characters/edit/${id}`)
       if (response.status !== 200) throw new Error('Error loading characters!')
       const data = (await response.json()) as Database['public']['Tables']['characters']['Row'][]
       setCharacter(data[0])
+      setLoading(false);
     } catch (error) {
       alert(error)
       console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (character.image_fetch_url && !isQeuedImage) {
+      setIsQeuedImage(true);
+    }
+  }, [character])
+
+  async function fetchQueuedImage() {
+    if (isQeuedImage) {
+      setCharacter({
+        ...character,
+        image_filename: character.image_fetch_url,
+      })
     }
   }
 
@@ -80,6 +103,7 @@ export default function CharacterEditPage () {
             height={200}
             width={200}
           />
+          {isQeuedImage && <Button onClick={fetchQueuedImage}>Fetch Image</Button>}
           <h2>{character.character_data.name}</h2>
           <h3>Background</h3>
           <p>{character.character_data.background || character.character_data.description}</p>
@@ -141,10 +165,14 @@ export default function CharacterEditPage () {
             ))
           )}
         </Container>
-      ) || (
-        <Container padding={'2rem'}>
-          <h2>Character not found</h2>
-        </Container>
+      ) || loading && (
+          <Loader showLoader={true} >
+            <h2>Loading...</h2>
+          </Loader>
+        ) || (
+          <Container padding={'2rem'}>
+            <h2>Character not found</h2>
+          </Container>
       )}
     </>
   );

@@ -5,6 +5,7 @@ import sharp from 'sharp';
 type GenerateCharacterResponse = {
   character?: Character;
   imageUrl?: string;
+  imageFetchUrl?: string;
   error?: string;
 }
 
@@ -162,20 +163,28 @@ export class ChatGPTClient {
       throw new Error('Image url is empty or undefined');
     }
     const imageUrl = images[0];
+    const imageFetchUrl = images[1] || '';
     console.log('imageUrl', imageUrl);
+          
 
-    return { character, imageUrl };
+    return { character, imageUrl, imageFetchUrl };
   }
 
   async createImage(name: string, prompt: string): Promise<string[] | string> {
     type ApiResponse = {
       status: string;
-      generationTime: number;
+      generationTime?: number;
+      tip?: string;
+      eta?: number;
+      fetch_result?: string;
       id: number;
       output: string[];
       meta: {
         prompt: string;
         model_id: string;
+        message: string;
+        fetch_result: string;
+        eta: number;
         negative_prompt: string;
         scheduler: string;
         safety_checker: string;
@@ -239,6 +248,18 @@ export class ChatGPTClient {
 
       console.log('responseBody', responseBody)
 
+      if (responseBody.status !== 'success') {
+        if (responseBody.status === 'processing' && responseBody?.fetch_result) {
+          console.log('Image is still processing. Adding fetch image url to database...');
+          const imageFetchUrl = responseBody?.fetch_result;
+          const imagesDallE = await this.createDalleImage(name, prompt)
+          imagesDallE.push(imageFetchUrl)
+          return imagesDallE
+        } else {
+          return await this.createDalleImage(name, prompt)
+        }
+      }
+
       // Upload images to Supabase storage
       const imageUrls = responseBody.output;
       if (!imageUrls || imageUrls.length === 0) {
@@ -272,6 +293,112 @@ export class ChatGPTClient {
       );
 
       return uploadedImages.filter((url) => url !== null) as string[];
+    } catch (error) {
+      console.error('Error generating image:', error);
+      return '';
+    }
+  }
+
+  async createDalleImage(name: string, description: string) {
+    type ApiResponse = {
+      created: number;
+      data: { url: string }[];
+    }    
+
+    const requestBody = {
+      "prompt": description,
+      "n": 1,
+      "size": "512x512"
+    };
+
+    try {
+      const response = await fetch(this.apiImageEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok || !response.body) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      
+      const uint8ArrayResponseBody = await response.arrayBuffer(); // Get response body as Uint8Array
+      const responseBody: ApiResponse = JSON.parse(new TextDecoder().decode(uint8ArrayResponseBody)); // Parse the JSON response
+
+      console.log('responseBody', responseBody)
+
+      // Upload images to Supabase storage
+      const imageUrls = responseBody.data;
+      if (!imageUrls || imageUrls.length === 0) {
+        throw new Error('No images generated');
+      }
+      const uploadedImages = await Promise.all(
+        imageUrls.map(async (url, index) => {
+          // Fetch the image as a Buffer
+          const imageResponse = await fetch(url.url);
+          const imageArrayBuffer = await imageResponse.arrayBuffer();
+          const imageBuffer = Buffer.from(imageArrayBuffer);
+
+          // Convert the image to JPG format using sharp
+          const convertedImageBuffer = await sharp(imageBuffer).toFormat('jpeg').toBuffer();
+      
+          // Upload the converted image to Supabase storage
+          const fileName = `${name.replace(/\s/g, '')}-${index}.jpg`;
+          const { data, error } = await supabase.storage
+            .from('images_public')
+            .upload(fileName, convertedImageBuffer);
+      
+          if (error) {
+            console.error(`Error uploading image ${fileName}:`, error);
+            return null;
+          }
+      
+          // Get the public URL of the uploaded image
+          const publicUrl = `/${this.bucket}/${fileName}`;
+          return publicUrl;
+        }),
+      );
+
+      return uploadedImages.filter((url) => url !== null) as string[];
+    } catch (error) {
+      console.error('Error generating image:', error);
+      return [];
+    }
+  }
+
+  async fetchImage(url: string) {
+    type ApiResponse = {
+      status: string;
+      id: number;
+      output: string[];
+    }
+
+    const requestBody = {
+      "key": this.stablediffusionApiKey,
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok || !response.body) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      
+      const uint8ArrayResponseBody = await response.arrayBuffer(); // Get response body as Uint8Array
+      const responseBody: ApiResponse = JSON.parse(new TextDecoder().decode(uint8ArrayResponseBody)); // Parse the JSON response
+
+      console.log('responseBody', responseBody)
+
+      return responseBody.output[0] || ''
     } catch (error) {
       console.error('Error generating image:', error);
       return '';
