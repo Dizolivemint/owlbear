@@ -9,13 +9,14 @@ import Container from '@/components/container'
 import Button from '@/components/button'
 import Input, { InputLabel } from '@/components/input'
 import Select from '@/components/select'
-import { Character } from '@/lib/app.types'
 import List from '@/components/lists'
 import Accordion from '@/components/accordion'
 import { Tab, Tabs } from '@/components/tabs'
 import Loader from '@/components/loader'
 import Image from 'next/image';
 import Checkbox from '@/components/checkbox'
+import { isCharacter } from '@/lib/typeGuards'
+import Link from 'next/link'
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -37,12 +38,11 @@ export default function Home() {
     console.log('Session', session)
   }, [session, router])
 
-  // useEffect(() => {
-  //   getCharacters()
-  // }, [])
+  useEffect(() => {
+    getCharacters()
+  }, [])
 
   useEffect(() => {
-    console.log('Characters', characters)
     console.log('Characters', characters.map((character) => isCharacter(character.character_data)))
   }, [characters])
 
@@ -112,6 +112,7 @@ export default function Home() {
                                 height={200}
                                 width={200}
                               />
+                              <Link href={`/monster/edit/${character.id}`}><Button>Edit</Button></Link>
                               <h2>{character.character_data.name}</h2>
                               <h3>Background</h3>
                               <p>{character.character_data.background || character.character_data.description}</p>
@@ -226,49 +227,4 @@ export default function Home() {
       </main>
     </>
   )
-}
-
-function isArray(value: any): value is any[] {
-  return Array.isArray(value);
-}
-
-function isCharacter(value: any): value is Character {
-  return (
-    value !== null &&
-    typeof value === "object" &&
-    typeof value.name === "string" &&
-    typeof value.species === "string" &&
-    (value.background === undefined || typeof value.background === "string") &&
-    (value.desciprtion === undefined || typeof value.description === "string") &&
-    typeof value.appearance === "string" &&
-    typeof value.size === "string" &&
-    typeof value.challenge_rating === "string" &&
-    typeof value.attributes === "object" &&
-    typeof value.attributes.STR === "number" &&
-    typeof value.attributes.DEX === "number" &&
-    typeof value.attributes.CON === "number" &&
-    typeof value.attributes.INT === "number" &&
-    typeof value.attributes.WIS === "number" &&
-    typeof value.attributes.CHA === "number" &&
-    isArray(value.skills) &&
-    value.skills.every((skill: any) => 
-      typeof skill.skill === "string" && typeof skill.description === "string"
-    ) &&
-    isArray(value.actions) &&
-    value.actions.every((action: any) =>
-      typeof action.action === "string" && typeof action.description === "string"
-    ) &&
-    isArray(value.reactions) &&
-    value.reactions.every((reaction: any) =>
-      typeof reaction.reaction === "string" && typeof reaction.description === "string"
-    ) &&
-    (value.legendary_actions === undefined || isArray(value.legendary_actions)) &&
-    (value.legendary_actions === undefined ||
-      value.legendary_actions.every(
-        (legendary_action: any) =>
-          typeof legendary_action?.legendary_action === "string" &&
-          typeof legendary_action?.description === "string"
-      )
-    )
-  );
 }
