@@ -67,7 +67,7 @@ export default function Home() {
     setLoading(true)
     if (!size || !species || !challengeRating) return
     try {
-      const response = await fetch('/api/chatgpt', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         body: JSON.stringify({
           size,
