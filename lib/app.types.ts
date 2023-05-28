@@ -5,7 +5,7 @@ export interface Character {
   description?: string;
   background?: string;
   size: string;
-  challenge_rating: number;
+  challenge_rating: string;
   attributes: {
     STR: number;
     DEX: number;
