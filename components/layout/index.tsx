@@ -40,6 +40,9 @@ const Footer = () => {
       <Link href="https://github.com/Dizolivemint/owlbear/issues">
         Issues
       </Link>
+      <Link href="https://stablediffusionapi.com/register?ref=miles-ever">
+        Images by Stable Diffusion API
+      </Link>
     </FooterWrapper>
   );
 };
