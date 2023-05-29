@@ -17,16 +17,32 @@ import Image from 'next/image';
 import Checkbox from '@/components/checkbox'
 import { isCharacter } from '@/lib/typeGuards'
 import Link from 'next/link'
+import useSWR from 'swr'
 
-export default function Home() {
-  const [loading, setLoading] = useState<boolean>(false)
+const fetcher = async (url: string) => {
+  console.log('fetcher', url)
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Request failed');
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error in fetcher:', error);
+    throw error;
+  }
+};
+
+export default function Monsters() {
+  const { data, error: fetchError, isLoading } = useSWR('/api/characters', fetcher);
+  const [loading, setLoading] = useState<boolean>(isLoading)
   const [size, setSize] = useState<string>('Small')
   const [species, setSpecies] = useState<string>('')
   const [challengeRating, setChallengeRating] = useState<string>('')
   const [activeTab, setActiveTab] = useState<number>(0)
   const [isLegendary, setIsLegendary] = useState<boolean>(false)
-  const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>([])
-  const [error, setError] = useState<string>('')
+  const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>(data)
+  const [error, setError] = useState<string>(fetchError?.message || '')
   const [isSuccess, setSuccess] = useState<boolean>(false)
 
   const router = useRouter()
@@ -36,16 +52,15 @@ export default function Home() {
     if (!session) {
       router.push('/login')
     }
-    console.log('Session', session)
   }, [session, router])
 
   useEffect(() => {
     getCharacters()
   }, [])
 
-  useEffect(() => {
-    console.log('Characters', characters.map((character) => isCharacter(character.character_data)))
-  }, [characters])
+  // useEffect(() => {
+  //   console.log('Characters', characters.map((character) => isCharacter(character.character_data)))
+  // }, [characters])
 
   async function getCharacters() {
     setLoading(true)
@@ -102,12 +117,12 @@ export default function Home() {
           <Container center={true}>
             <Tabs activeTabIndex={activeTab} key={activeTab}>
               <Tab title={'Monsters'}>
-                <Container>
-                  <Loader showLoader={loading}>
-                    <Button onClick={getCharacters}>Load Monsters</Button>
-                  </Loader>
-                </Container>
-                {characters.length > 0 ? (
+                {loading ? (
+                  <Container>
+                    <Loader showLoader={loading}>
+                    </Loader>
+                  </Container>
+                ) : characters.length > 0 ? (
                   <List>
                     {characters.map((character) => (
                       <li key={character.id}>
@@ -185,7 +200,7 @@ export default function Home() {
                           </Accordion>
                         ) : (
                           <div style={{ border: '1px solid red', padding: '1rem', marginBottom: '1rem' }}>
-                            <p>One of your character's data is off (most likely due to the AI not following directions). Please let me know, so I can look into it.</p>
+                            <p>One of your character's data is off. Please submit an issue (link in the footer).</p>
                           </div>
                         )}
                       </li>

@@ -15,6 +15,9 @@ const List = styled.ul<ListProps>`
   margin: 0;
   li {
     margin: 0 0.5rem;
+    @media ${props => props.theme.mediaQueries.small} {
+      width: 100%;
+    }
   }
 `;
 
