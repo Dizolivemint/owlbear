@@ -25,10 +25,10 @@ const FooterWrapper = styled.footer`
   justify-content: space-around;
   background-color: #2e5d41;
   padding: 20px;
-`;
-
-const Copyright = styled.p`
-  font-size: 14px;
+  flex-wrap: wrap;
+  a {
+    margin: 1rem 0;
+  }
 `;
 
 const Footer = () => {
