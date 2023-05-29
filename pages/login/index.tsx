@@ -16,7 +16,7 @@ export default function Login() {
   const router = useRouter();
 
   if (session) {
-    router.push('/profile');
+    router.push('/monsters');
   }
 
   const getURL = () => {
