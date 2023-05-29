@@ -189,6 +189,38 @@ export interface Database {
           updated_at?: string
         }
       }
+      requests: {
+        Row: {
+          challengeRating: string
+          created_at: string | null
+          isLegendary: boolean | null
+          isProcessed: boolean | null
+          size: string
+          species: string
+          user: string
+          uuid: string
+        }
+        Insert: {
+          challengeRating: string
+          created_at?: string | null
+          isLegendary?: boolean | null
+          isProcessed?: boolean | null
+          size: string
+          species: string
+          user: string
+          uuid?: string
+        }
+        Update: {
+          challengeRating?: string
+          created_at?: string | null
+          isLegendary?: boolean | null
+          isProcessed?: boolean | null
+          size?: string
+          species?: string
+          user?: string
+          uuid?: string
+        }
+      }
       sessions: {
         Row: {
           created_at: string

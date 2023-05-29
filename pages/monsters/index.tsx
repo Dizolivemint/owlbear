@@ -27,6 +27,7 @@ export default function Home() {
   const [isLegendary, setIsLegendary] = useState<boolean>(false)
   const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>([])
   const [error, setError] = useState<string>('')
+  const [isSuccess, setSuccess] = useState<boolean>(false)
 
   const router = useRouter()
   const session = useSession()
@@ -65,9 +66,10 @@ export default function Home() {
     e.preventDefault();
     setError('')
     setLoading(true)
+    setSuccess(false)
     if (!size || !species || !challengeRating) return
     try {
-      const response = await fetch('/api/chatgpt', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         body: JSON.stringify({
           size,
@@ -79,6 +81,7 @@ export default function Home() {
       if (response.status !== 200) {
         setError('Error generating character!')
       }
+      setSuccess(true)
       await getCharacters()
     } catch (error) {
       console.error('Error generating character:', error)
@@ -99,6 +102,11 @@ export default function Home() {
           <Container center={true}>
             <Tabs activeTabIndex={activeTab} key={activeTab}>
               <Tab title={'Monsters'}>
+                <Container>
+                  <Loader showLoader={loading}>
+                    <Button onClick={getCharacters}>Load Monsters</Button>
+                  </Loader>
+                </Container>
                 {characters.length > 0 ? (
                   <List>
                     {characters.map((character) => (
@@ -185,9 +193,7 @@ export default function Home() {
                   </List>
                 ) : (
                   <Container>
-                    <Loader showLoader={loading}>
-                      <Button onClick={getCharacters}>Load Monsters</Button>
-                    </Loader>
+                    <p>No monsters found, yet.</p>
                   </Container>
                 )}
               </Tab>
@@ -216,6 +222,14 @@ export default function Home() {
                     <Container>
                       <p>{error}</p>
                       <p>Please try again later...</p>
+                    </Container>
+                  )}
+                  {isSuccess && (
+                    <Container>
+                      <p>Successfully queued!</p>
+                      <p>Your monster will be generated on the backend.</p>
+                      <p>Check back in a few minutes and click the Load button.</p>
+                      <p>In the future, you will be notified when your monster has been generated.</p>
                     </Container>
                   )}
                 </form>
