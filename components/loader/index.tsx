@@ -51,7 +51,7 @@ const Loader: React.FC<LoaderProps> = ({ showLoader, children }) => {
         <LoaderAnimation />
       </LoaderOverlay>
       <LoadHidden showLoader={showLoader}>
-        {children}
+        {children ? children : <div style={{width:'40px', height:'40px'}}></div>}
       </LoadHidden>
     </LoaderWrapper>
   );
