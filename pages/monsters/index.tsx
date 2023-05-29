@@ -243,7 +243,7 @@ export default function Monsters() {
                     <Container>
                       <p>Successfully queued!</p>
                       <p>Your monster will be generated on the backend.</p>
-                      <p>Check back in a few minutes and click the Load button.</p>
+                      <p>Check back in a few minutes under the monsters tab.</p>
                       <p>In the future, you will be notified when your monster has been generated.</p>
                     </Container>
                   )}
