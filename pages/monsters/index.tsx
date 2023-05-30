@@ -41,7 +41,7 @@ export default function Monsters() {
   const [challengeRating, setChallengeRating] = useState<string>('')
   const [activeTab, setActiveTab] = useState<number>(0)
   const [isLegendary, setIsLegendary] = useState<boolean>(false)
-  const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>(data)
+  const [characters, setCharacters] = useState<Database['public']['Tables']['characters']['Row'][]>([])
   const [error, setError] = useState<string>(fetchError?.message || '')
   const [isSuccess, setSuccess] = useState<boolean>(false)
 
