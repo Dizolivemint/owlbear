@@ -34,7 +34,7 @@ const fetcher = async (url: string) => {
 };
 
 export default function Monsters() {
-  const { data, error: fetchError, isLoading } = useSWR('/api/characters', fetcher, { refreshInterval: 30000 });
+  const { data, error: fetchError, isLoading } = useSWR('/api/characters', fetcher, { refreshInterval: 10000 });
   const [loading, setLoading] = useState<boolean>(isLoading)
   const [size, setSize] = useState<string>('Small')
   const [species, setSpecies] = useState<string>('')
