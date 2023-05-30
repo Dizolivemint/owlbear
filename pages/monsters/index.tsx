@@ -35,7 +35,7 @@ const fetcher = async (url: string) => {
 
 export default function Monsters() {
   const { data, error: fetchError, isLoading } = useSWR('/api/characters', fetcher, { refreshInterval: 10000 });
-  const [loading, setLoading] = useState<boolean>(isLoading)
+  const [loading, setLoading] = useState<boolean>(false)
   const [size, setSize] = useState<string>('Small')
   const [species, setSpecies] = useState<string>('')
   const [challengeRating, setChallengeRating] = useState<string>('')
@@ -55,27 +55,15 @@ export default function Monsters() {
   }, [session, router])
 
   useEffect(() => {
-    getCharacters()
-  }, [])
+    if (data) {
+      setCharacters(data);
+      setActiveTab(0);
+    }
+  }, [data]);
 
   // useEffect(() => {
   //   console.log('Characters', characters.map((character) => isCharacter(character.character_data)))
   // }, [characters])
-
-  async function getCharacters() {
-    setLoading(true)
-    try {
-      const response = await fetch('/api/characters')
-      if (response.status !== 200) throw new Error('Error loading characters!')
-      const data = (await response.json()) as Database['public']['Tables']['characters']['Row'][]
-      setCharacters(data)
-      setActiveTab(0)
-    } catch (error) {
-      alert(error)
-      console.log(error)
-    }
-    setLoading(false)
-  }
 
   async function createCharacter(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -97,7 +85,6 @@ export default function Monsters() {
         setError('Error generating character!')
       }
       setSuccess(true)
-      await getCharacters()
     } catch (error) {
       console.error('Error generating character:', error)
     }
@@ -117,9 +104,9 @@ export default function Monsters() {
           <Container center={true}>
             <Tabs activeTabIndex={activeTab} key={activeTab}>
               <Tab title={'Monsters'}>
-                {loading ? (
+                {isLoading ? (
                   <Container>
-                    <Loader showLoader={loading}>
+                    <Loader showLoader={isLoading}>
                     </Loader>
                   </Container>
                 ) : characters.length > 0 ? (
