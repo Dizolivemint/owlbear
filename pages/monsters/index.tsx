@@ -121,7 +121,7 @@ export default function Monsters() {
                                 alt={character.character_data.name || ''} 
                                 height={768}
                                 width={512}
-                                style={{objectFit: 'contain', maxWidth: '100%'}}
+                                style={{objectFit: 'cover', maxWidth: '100%'}}
                               />
                               <Link href={`/monster/edit/${character.id}`}><Button>Edit</Button></Link>
                               <h2>{character.character_data.name}</h2>
