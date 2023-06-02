@@ -103,8 +103,9 @@ export default function CharacterEditPage () {
           <Image 
             src={character.image_filename || ''} 
             alt={character.character_data.name || ''} 
-            height={200}
-            width={200}
+            height={768}
+            width={512}
+            style={{objectFit: 'contain'}}
           />
           {!character.public ? (
             <Container padding='1rem'>

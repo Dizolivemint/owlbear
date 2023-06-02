@@ -23,8 +23,9 @@ const CharacterPage: React.FC<Props> = ({ data }) => {
         <Image 
           src={character.image_filename || ''} 
           alt={character.character_data.name || ''} 
-          height={200}
-          width={200}
+          height={768}
+          width={512}
+          style={{objectFit: 'contain'}}
         />
         <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`${domain}/monster/${character.id}`} />
         <h2>{character.character_data.name}</h2>
