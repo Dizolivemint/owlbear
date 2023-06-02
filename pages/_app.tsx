@@ -7,6 +7,7 @@ import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import StyledComponentsRegistry from '@/lib/registry';
 import { Analytics } from '@vercel/analytics/react';
+import { Notification } from '@/components/onesignal'
 
 export default function App({ Component, pageProps }: AppProps<{
   initialSession: Session
@@ -22,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps<{
           <>
             <Component {...pageProps} />
             <Analytics />
+            <Notification />
           </>
         </StyledComponentsRegistry>
       </ThemeProvider>
