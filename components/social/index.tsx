@@ -7,6 +7,7 @@ import Container from '@/components/container';
 interface ButtonShareProps {
     title: string;
     description: string;
+    url: string;
 }
 
 const ShareLink = styled.div`
@@ -21,7 +22,7 @@ function share(props: ButtonShareProps) {
         navigator.share({
             title: props.title,
             text: props.description,
-            url: window.location.href
+            url: props.url
         })
             .then(() => {
                 console.log('Thanks for sharing!');
@@ -35,23 +36,11 @@ function share(props: ButtonShareProps) {
 }
 
 function ButtonShare(props: ButtonShareProps) {
-    const [shareSupport, setShareSupport] = useState(false);
-
-    useEffect(() => {
-        if (navigator.share !== undefined) {
-            setShareSupport(true);
-        }
-    }, []);
-
-    if (shareSupport === true) {
-        return (
-            <ShareLink onClick={() => share(props)}>
-                <FaShareAlt />
-            </ShareLink>
-        );
-    } else {
-        return null;
-    }
+    return (
+        <ShareLink onClick={() => share(props)}>
+            <FaShareAlt />
+        </ShareLink>
+    );
 }
 
 interface SocialProps {
@@ -75,101 +64,21 @@ const SocialLink = styled.a`
 `;
 
 const Social: React.FC<SocialProps> = ({
-    facebook,
-    github,
-    instagram,
-    linkedin,
-    pinterest,
-    soundcloud,
-    twitter,
-    youtube,
-    title,
-    description,
-    url
+      title,
+      description,
+      url,
 }) => {
+  const [shareSupport, setShareSupport] = useState(false);
+
+    useEffect(() => {
+        if (navigator.share !== undefined) {
+            setShareSupport(true);
+        }
+    }, []);
+
     return (
         <Container>
-            <ButtonShare title={title} description={description} />
-            {facebook && (
-                <SocialLink
-                    href={facebook}
-                    target="_blank"
-                    aria-label="Facebook profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaFacebookF />
-                </SocialLink>
-            )}
-            {github && (
-                <SocialLink
-                    href={github}
-                    target="_blank"
-                    aria-label="GitHub profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaGithub />
-                </SocialLink>
-            )}
-            {instagram && (
-                <SocialLink
-                    href={instagram}
-                    target="_blank"
-                    aria-label="Instagram profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaInstagram />
-                </SocialLink>
-            )}
-            {linkedin && (
-                <SocialLink
-                    href={linkedin}
-                    target="_blank"
-                    aria-label="LinkedIn profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaLinkedinIn />
-                </SocialLink>
-            )}
-            {pinterest && (
-                <SocialLink
-                    href={pinterest}
-                    target="_blank"
-                    aria-label="Pinterest profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaPinterestP />
-                </SocialLink>
-            )}
-            {soundcloud && (
-                <SocialLink
-                    href={soundcloud}
-                    target="_blank"
-                    aria-label="SoundCloud profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaSoundcloud />
-                </SocialLink>
-            )}
-            {twitter && (
-                <SocialLink
-                    href={twitter}
-                    target="_blank"
-                    aria-label="Twitter profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaTwitter />
-                </SocialLink>
-            )}
-            {youtube && (
-                <SocialLink
-                    href={youtube}
-                    target="_blank"
-                    aria-label="YouTube profile"
-                    rel="noopener noreferrer"
-                >
-                    <FaYoutube />
-                </SocialLink>
-            )}
+          {shareSupport && <ButtonShare title={title} description={description} url={url} />}
         </Container>
     );
 };
