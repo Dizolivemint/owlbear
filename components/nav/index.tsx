@@ -72,8 +72,6 @@ const Nav = (props: NavProps) => {
   const navList = session
     ? [
         { name: 'Monsters', href: '/monsters' },
-        { name: 'Maps', href: '/maps' },
-        { name: 'Profile', href: '/profile' },
       ]
     : [
         { name: 'Home', href: '/' },
