@@ -119,8 +119,9 @@ export default function Monsters() {
                               <Image 
                                 src={character.image_filename || ''} 
                                 alt={character.character_data.name || ''} 
-                                height={200}
-                                width={200}
+                                height={768}
+                                width={512}
+                                style={{objectFit: 'contain'}}
                               />
                               <Link href={`/monster/edit/${character.id}`}><Button>Edit</Button></Link>
                               <h2>{character.character_data.name}</h2>

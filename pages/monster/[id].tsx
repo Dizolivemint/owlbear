@@ -13,17 +13,19 @@ type Props = {
   domain: string;
 };
 
-const CharacterPage: React.FC<Props> = ({ data, domain }) => {
+const CharacterPage: React.FC<Props> = ({ data }) => {
   // Render the character data
   const character = data
+  const domain = typeof window !== 'undefined' ? window.location.host : '';
   if (character?.character_data && isCharacter(character.character_data)) {
     return (
       <Container padding='2rem'>
         <Image 
           src={character.image_filename || ''} 
           alt={character.character_data.name || ''} 
-          height={200}
-          width={200}
+          height={768}
+          width={512}
+          style={{objectFit: 'contain'}}
         />
         <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`${domain}/monster/${character.id}`} />
         <h2>{character.character_data.name}</h2>

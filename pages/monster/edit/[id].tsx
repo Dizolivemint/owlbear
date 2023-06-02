@@ -103,8 +103,9 @@ export default function CharacterEditPage () {
           <Image 
             src={character.image_filename || ''} 
             alt={character.character_data.name || ''} 
-            height={200}
-            width={200}
+            height={768}
+            width={512}
+            style={{objectFit: 'contain'}}
           />
           {!character.public ? (
             <Container padding='1rem'>
@@ -117,7 +118,7 @@ export default function CharacterEditPage () {
               </Loader>
             </Container>
           ) : (
-            <Social title={character.character_data.name || ''} description={character.character_data.description || ''} url={`https://${domain}/monster/${character.id}`} />
+            <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`https://${domain}/monster/${character.id}`} />
           )}
           <h2>{character.character_data.name}</h2>
           <h3>Background</h3>
