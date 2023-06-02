@@ -18,14 +18,14 @@ const CharacterPage: React.FC<Props> = ({ data, domain }) => {
   const character = data
   if (character?.character_data && isCharacter(character.character_data)) {
     return (
-      <Container>
-        <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`${domain}/monster/${character.id}`} />
+      <Container padding='2rem'>
         <Image 
           src={character.image_filename || ''} 
           alt={character.character_data.name || ''} 
           height={200}
           width={200}
         />
+        <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`${domain}/monster/${character.id}`} />
         <h2>{character.character_data.name}</h2>
         <h3>Background</h3>
         <p>{character.character_data.background || character.character_data.description}</p>
