@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { data, error } = await supabaseServerClient
       .from('characters')
       .update(req.body)
-      .eq('user_id', user?.id)
+      .eq('id', req.body.id)
 
     if (error) {
       return res.status(500).json({ error: error.message })

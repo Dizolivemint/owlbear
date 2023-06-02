@@ -8,7 +8,6 @@ interface LoaderProps {
 
 const LoaderWrapper = styled.div<LoaderProps>`
   position: relative;
-  margin-top: 2rem;
 `;
 
 const LoadHidden = styled.div<LoaderProps>`

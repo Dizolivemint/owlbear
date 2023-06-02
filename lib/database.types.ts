@@ -56,7 +56,6 @@ export interface Database {
           created_at: string
           hit_points: number | null
           id: number
-          image_fetch_url: string | null
           image_filename: string | null
           initiative: number | null
           movement_speed: number | null
@@ -69,7 +68,6 @@ export interface Database {
           created_at?: string
           hit_points?: number | null
           id?: number
-          image_fetch_url?: string | null
           image_filename?: string | null
           initiative?: number | null
           movement_speed?: number | null
@@ -82,7 +80,6 @@ export interface Database {
           created_at?: string
           hit_points?: number | null
           id?: number
-          image_fetch_url?: string | null
           image_filename?: string | null
           initiative?: number | null
           movement_speed?: number | null
@@ -171,21 +168,27 @@ export interface Database {
           avatar_url: string | null
           created_at: string
           display_name: string | null
+          email: string | null
           id: string
+          phone: string | null
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
+          email?: string | null
           id?: string
+          phone?: string | null
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
           display_name?: string | null
+          email?: string | null
           id?: string
+          phone?: string | null
           updated_at?: string
         }
       }
