@@ -105,7 +105,7 @@ export default function CharacterEditPage () {
             alt={character.character_data.name || ''} 
             height={768}
             width={512}
-            style={{objectFit: 'cover', maxWidth: '100%'}}
+            style={{objectFit: 'cover', maxWidth: '100%', height: 'auto'}}
           />
           {!character.public ? (
             <Container padding='1rem'>

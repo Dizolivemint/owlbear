@@ -25,7 +25,7 @@ const CharacterPage: React.FC<Props> = ({ data }) => {
           alt={character.character_data.name || ''} 
           height={768}
           width={512}
-          style={{objectFit: 'cover', maxWidth: '100%'}}
+          style={{objectFit: 'cover', maxWidth: '100%', height: 'auto'}}
         />
         <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`${domain}/monster/${character.id}`} />
         <h2>{character.character_data.name}</h2>
