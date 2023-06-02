@@ -1,4 +1,4 @@
-const cacheName = 'v1';
+const cacheName = 'v1685666376';
 
 const cacheClone = async (event) => {
   const requestUrl = new URL(event.request.url);

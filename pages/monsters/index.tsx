@@ -229,9 +229,7 @@ export default function Monsters() {
                   {isSuccess && (
                     <Container>
                       <p>Successfully queued!</p>
-                      <p>Your monster will be generated on the backend.</p>
-                      <p>You will be notified by email within 10 minutes.</p>
-                      <p>If you don't see it, please check your spam.</p>
+                      <p>When your monster is ready, you will be notified by email or push notification.</p>
                     </Container>
                   )}
                 </form>

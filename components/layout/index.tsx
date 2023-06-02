@@ -41,7 +41,10 @@ const Footer = () => {
         Issues
       </Link>
       <Link href="https://stablediffusionapi.com/register?ref=miles-ever">
-        Images by Stable Diffusion API
+        Stable Diffusion API
+      </Link>
+      <Link href="https://www.patreon.com/RPGAI">
+        RPG AI Image Model
       </Link>
     </FooterWrapper>
   );
