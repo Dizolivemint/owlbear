@@ -13,9 +13,10 @@ type Props = {
   domain: string;
 };
 
-const CharacterPage: React.FC<Props> = ({ data, domain }) => {
+const CharacterPage: React.FC<Props> = ({ data }) => {
   // Render the character data
   const character = data
+  const domain = typeof window !== 'undefined' ? window.location.host : '';
   if (character?.character_data && isCharacter(character.character_data)) {
     return (
       <Container padding='2rem'>

@@ -117,7 +117,7 @@ export default function CharacterEditPage () {
               </Loader>
             </Container>
           ) : (
-            <Social title={character.character_data.name || ''} description={character.character_data.description || ''} url={`https://${domain}/monster/${character.id}`} />
+            <Social title={character.character_data.name || ''} description={character.character_data.background || ''} url={`https://${domain}/monster/${character.id}`} />
           )}
           <h2>{character.character_data.name}</h2>
           <h3>Background</h3>
