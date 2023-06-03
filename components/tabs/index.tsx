@@ -18,8 +18,6 @@ const TabContainer = styled.div`
   margin-bottom: 10px;
   width: 100%;
   height: 100%;
-  border-top: 3px solid #1d222c;
-  border-bottom: 3px solid #1d222c;
 `;
 
 const TabButtonsContainer = styled.div`
@@ -37,6 +35,8 @@ const TabButton = styled.button<{ isActive: boolean }>`
 
 const TabContent = styled.div<{ isActive: boolean }>`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
+  border-top: 3px solid #1d222c;
+  border-bottom: 3px solid #1d222c;
 `;
 
 const Tab: React.FC<TabProps> = ({ title, children }) => {
