@@ -17,17 +17,23 @@ const Wrapper = styled.div`
 `;
 
 const MainContent = styled.div`
+  background-image: url("/background.svg");
+`;
+
+const Overlay = styled.div`
   flex-grow: 1;
+  background: #1d1e2cf0;
+  display: flex;
 `;
 
 const FooterWrapper = styled.footer`
   display: flex;
   justify-content: space-around;
-  background-color: #2e5d41;
+  background-color: #1d222c;
   padding: 20px;
   flex-wrap: wrap;
   a {
-    margin: 1rem 0;
+    margin: 2rem;
   }
 `;
 
@@ -59,7 +65,11 @@ const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
       <Container>
         <Nav list={navList} />
       </Container>
-      <MainContent>{children}</MainContent>
+      <MainContent>
+        <Overlay>
+          {children}
+        </Overlay>
+      </MainContent>
       <Footer />
     </Wrapper>
   );

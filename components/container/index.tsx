@@ -7,10 +7,10 @@ type ContainerProps = {
   center?: boolean;
   textCenter?: boolean;
   padding?: string;
+  style?: React.CSSProperties;
 };
 
 const StyledContainer = styled.div<ContainerProps>`
-  background-color: ${props => props.theme.colors.bg};
   color: ${props => props.theme.colors.textColor};
   display: flex;
   flex-direction: column;
