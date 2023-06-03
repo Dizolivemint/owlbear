@@ -16,6 +16,8 @@ const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
 `;
 
 const TabButtonsContainer = styled.div`
@@ -33,7 +35,8 @@ const TabButton = styled.button<{ isActive: boolean }>`
 
 const TabContent = styled.div<{ isActive: boolean }>`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
-  padding: 10px;
+  border-top: 3px solid #1d222c;
+  border-bottom: 3px solid #1d222c;
 `;
 
 const Tab: React.FC<TabProps> = ({ title, children }) => {

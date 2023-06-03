@@ -6,7 +6,7 @@ import Logo from '@/components/logo';
 import { useRouter } from 'next/router';
 
 const NavContainer = styled.nav`
-  background-color: #2e5d41;
+  background-color: #1d222c;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

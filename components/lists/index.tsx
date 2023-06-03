@@ -8,7 +8,7 @@ const List = styled.ul<ListProps>`
   display: flex;
   flex-direction: ${props => props.direction ? props.direction : 'row'};
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   list-style: none;
   padding: 0;
