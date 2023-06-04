@@ -30,7 +30,7 @@ export default function Home() {
               <ol style={{marginLeft: '4rem'}}>
                 <li>Go to Monsters in the navigation</li>
                 <li>Otherwise, go to the Create tab</li>
-                <li>Pick a size, type in a species or whatever you want (it gets funny when you get wacky, but it may not work if you get perverted)</li>
+                <li>Pick a size, and type in anything for the species or type</li>
                 <li>Finally, pick a CR and select Is Legendary if you want legendary actions</li>
               </ol>
               <h3>Step 3 - View your Monsters</h3>
