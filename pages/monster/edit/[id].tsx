@@ -9,6 +9,7 @@ import Loader from '@/components/loader';
 import Button from '@/components/button';
 import Social from '@/components/social';
 import Layout from '@/components/layout';
+import CustomButton from '@/components/modal';
 
 const characterPlaceholder: Database['public']['Tables']['characters']['Row'] = {
   id: -1,
@@ -96,6 +97,21 @@ export default function CharacterEditPage () {
     }
   }
 
+  async function deleteCharacter() {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/characters/edit/${id}`, {
+        method: 'DELETE',
+      })
+      if (response.status !== 200) throw new Error('Error deleting character!')
+      router.push('/monsters')
+      setLoading(false);
+    } catch (error) {
+      alert(error)
+      console.log(error)
+    }
+  }
+
   // Render the character data
   return (
     <Layout>
@@ -118,6 +134,14 @@ export default function CharacterEditPage () {
                 >
                   Make public
                 </Button>
+              </Loader>
+              <Loader showLoader={loading}>
+                <CustomButton
+                  modalText='Are you sure you want to delete this monster?'
+                  onConfirm={() => deleteCharacter()}
+                >
+                  Delete Monster
+                </CustomButton>
               </Loader>
             </Container>
           ) : (

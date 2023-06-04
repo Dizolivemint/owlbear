@@ -55,7 +55,7 @@ const Accordion: React.FC<AccordionProps> = (props: AccordionProps = {
     <AccordionContainer>
       <AccordionButton onClick={handleClick}>
         {imageUrl && 
-          <Image src={imageUrl} alt="Accordion" height={30} width={30} />
+          <Image src={imageUrl} alt="Accordion" style={{borderRadius: '50%'}} height={30} width={30} />
         }
         <AccordionTitle>{title}</AccordionTitle>
         <AccordionIcon>{isOpen ? '-' : '+'}</AccordionIcon>
