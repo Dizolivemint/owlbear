@@ -20,6 +20,8 @@ const ModalContent = styled.div`
   background-color: #fff;
   padding: 2rem;
   border-radius: 4px;
+  color: #000;
+  border: 0.25rem solid #ff7600;
 `;
 
 const ModalButtonContainer = styled.div`
@@ -30,15 +32,16 @@ const ModalButtonContainer = styled.div`
 
 const ConfirmationButton = styled(Button)`
   margin-left: 1rem;
+  background: #460000;
 `;
 
 type CustomButtonProps = {
-  title: string;
   modalText: string;
   onConfirm: () => void;
+  children: React.ReactNode;
 };
 
-const CustomButton: React.FC<CustomButtonProps> = ({ title, modalText, onConfirm }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ children, modalText, onConfirm }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleConfirmation = () => {
@@ -57,7 +60,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ title, modalText, onConfirm
   return (
     <div>
       {/* Button to open the modal */}
-      <Button onClick={() => setShowModal(true)}>{title}</Button>
+      <Button onClick={() => setShowModal(true)}>{children}</Button>
 
       {/* Modal */}
       {showModal && (

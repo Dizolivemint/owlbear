@@ -16,6 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     req,
     res,
   })
+
   const response = await supabaseServerClient.auth.getUser()
   const { user } = response.data
 
@@ -24,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .from('characters')
       .select('*')
       .eq('id', id)
+      .eq('user_id', user?.id)
 
     if (error) {
       console.error(error)
@@ -38,6 +40,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .from('characters')
       .update(req.body)
       .eq('id', req.body.id)
+      .eq('user_id', user?.id)
+
+    if (error) {
+      return res.status(500).json({ error: error.message })
+    }
+
+    res.status(200).json(data)
+  }
+
+  if (req.method === 'DELETE') {
+    const { data, error } = await supabaseServerClient
+      .from('characters')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user?.id)
 
     if (error) {
       return res.status(500).json({ error: error.message })

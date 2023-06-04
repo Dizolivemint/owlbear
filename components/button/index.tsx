@@ -16,9 +16,10 @@ type ButtonProps = {
 };
 
 const breatheAnimation = keyframes`
- 0% { opacity: 1; }
- 50% { opacity: 0.1; }
- 100% { opacity: 1; }
+ 0% { border-top: 2px solid #c65802; }
+ 25% { border-right: 2px solid #c65802; }
+ 50% { border-bottom: 2px solid #c65802; }
+ 100% { border-left: 2px solid #c65802; }
 `;
 
 const StyledButton = styled.button<ButtonProps>`

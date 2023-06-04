@@ -13,6 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     .from('characters')
     .select('*')
     .eq('user_id', user?.id)
+    .order('updated_at', { ascending: false });
 
   if (error) {
     return res.status(500).json({ error: error.message })
