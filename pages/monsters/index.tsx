@@ -110,7 +110,7 @@ export default function Monsters() {
                     </Loader>
                   </Container>
                 ) : characters.length > 0 ? (
-                  <Container padding='1rem' center={true} style={{maxWidth: '1200px', margin: 'auto'}}>
+                  <Container padding='1rem' center={true} style={{maxWidth: '1200px', margin: 'auto', minHeight: 'calc(100vh - 15rem)'}}>
                     <List>
                       {characters.map((character) => (
                         <li key={character.id}>
