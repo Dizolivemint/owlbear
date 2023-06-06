@@ -116,12 +116,10 @@ const LogoutButton = styled.button`
   background-color: transparent;
   color: #fff;
   padding: 5px;
-  border-radius: 4px;
   cursor: pointer;
 
   &:hover {
-    background-color: #ccc;
-    color: #000;
+    animation: ${glowAnimation} 8s infinite;
   }
 `;
 
@@ -149,7 +147,6 @@ const Nav = ({ list }: NavProps) => {
       ]
     : [
         { name: 'Public', href: '/monsters/public' },
-        { name: 'Login', href: '/login' },
       ];
 
   const handleSignOut = async () => {
@@ -215,9 +212,15 @@ const Nav = ({ list }: NavProps) => {
           </NavItem>
         ))}
       </NavList>
-      {session && (
+      {session ? (
         <RightContainer>
           <LogoutButton onClick={() => handleSignOut()}>Logout</LogoutButton>
+        </RightContainer>
+      ) : (
+        <RightContainer>
+          <Link href="/login">
+            <NavLink>Login</NavLink>
+          </Link>
         </RightContainer>
       )}
     </NavContainer>
