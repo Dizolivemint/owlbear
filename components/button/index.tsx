@@ -15,7 +15,7 @@ type ButtonProps = {
   disabled?: boolean;
 };
 
-const breatheAnimation = keyframes`
+const borderAnimation = keyframes`
  0% { border-top: 2px solid #c65802; }
  25% { border-right: 2px solid #c65802; }
  50% { border-bottom: 2px solid #c65802; }
@@ -37,7 +37,7 @@ const StyledButton = styled.button<ButtonProps>`
   justify-content: center;
   &:hover {
     cursor: pointer;
-    animation-name: ${breatheAnimation};
+    animation-name: ${borderAnimation};
     animation-duration: 4s;
     animation-iteration-count: infinite;
   }

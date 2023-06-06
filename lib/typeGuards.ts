@@ -1,4 +1,4 @@
-import { Character } from "./app.types";
+import { Character } from "@/lib/app.types";
 
 function isArray(value: any): value is any[] {
   return Array.isArray(value);

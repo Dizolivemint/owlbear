@@ -10,14 +10,13 @@ import Button from '@/components/button'
 import Input, { InputLabel } from '@/components/input'
 import Select from '@/components/select'
 import List from '@/components/lists'
-import Accordion from '@/components/accordion'
 import { Tab, Tabs } from '@/components/tabs'
 import Loader from '@/components/loader'
-import Image from 'next/image';
 import Checkbox from '@/components/checkbox'
-import { isCharacter } from '@/lib/typeGuards'
-import Link from 'next/link'
 import useSWR from 'swr'
+import LayoutCharacter from '@/components/layout/character'
+import HeadContent from '@/components/head'
+import Link from 'next/link'
 
 const fetcher = async (url: string) => {
   console.log('fetcher', url)
@@ -94,10 +93,10 @@ export default function Monsters() {
   return (
     <>
       <Head>
-        <title>AI Monster Generator</title>
-        <meta name="description" content="Generate a monster or NPC of any type" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <HeadContent
+          title={'Dungeons and Dragons 5e | Monster Limbo'}
+          description={"Dungeon Master's monster generator and DnD 5e stat block maker."}
+        />
       </Head>
       <main>
         <Layout>
@@ -105,7 +104,7 @@ export default function Monsters() {
             <Tabs activeTabIndex={activeTab} key={activeTab}>
               <Tab title={'Monsters'}>
                 {isLoading ? (
-                  <Container center={true} style={{margin: 'auto'}}>
+                  <Container center={true} style={{maxWidth: '1200px', margin: 'auto', minHeight: 'calc(100vh - 15rem)'}}>
                     <Loader showLoader={isLoading}>
                     </Loader>
                   </Container>
@@ -114,88 +113,12 @@ export default function Monsters() {
                     <List>
                       {characters.map((character) => (
                         <li key={character.id}>
-                          {isCharacter(character.character_data) ? (
-                            <Accordion title={character.character_data.name} imageUrl={character.image_filename || ''}>
-                              <Container>
-                                <Container center={true} padding='1rem'>
-                                  <Image 
-                                    src={character.image_filename || ''} 
-                                    alt={character.character_data.name || ''} 
-                                    height={768}
-                                    width={512}
-                                    style={{objectFit: 'cover', maxWidth: '100%', height: 'auto'}}
-                                  />
-                                  <Link href={`/monster/edit/${character.id}`}><Button>Edit</Button></Link>
-                                  <h2>{character.character_data.name}</h2>
-                                </Container>
-                                <Container padding='1rem'>
-                                  <h3>Background</h3>
-                                  <p>{character.character_data.background || character.character_data.description}</p>
-                                  <h3>Appearance</h3>
-                                  <p>{character.character_data.appearance}</p>
-                                  <h3>Size</h3>
-                                  <p>{character.character_data.size}</p>
-                                  <h3>Species</h3>
-                                  <p>{character.character_data.species}</p>
-                                  <h3>Challenge Rating</h3>
-                                  <p>{character.character_data.challenge_rating}</p>
-                                  <h3>Attributes</h3>
-                                  <List direction={'column'}>
-                                    <li>STR: {character.character_data.attributes.STR}</li>
-                                    <li>DEX: {character.character_data.attributes.DEX}</li>
-                                    <li>CON: {character.character_data.attributes.CON}</li>
-                                    <li>INT: {character.character_data.attributes.INT}</li>
-                                    <li>WIS: {character.character_data.attributes.WIS}</li>
-                                    <li>CHA: {character.character_data.attributes.CHA}</li>
-                                  </List>
-                                  <h3>Skills</h3>
-                                  {character.character_data.skills.map((skill, index) => (
-                                    <div key={index}>
-                                      <h5 id={`h-skill-${index}`}>Name</h5>
-                                      <p aria-labelledby={`h-skill-${index}`}>{skill.skill}</p>
-                                      <h5 id={`h-description-${index}`}>Description</h5>
-                                      <p aria-labelledby={`h-description-${index}`}>{skill.description}</p>
-                                    </div>
-                                  ))}
-                                  <h3>Actions</h3>
-                                  {character.character_data.actions.map((action, index) => (
-                                    <div key={index}>
-                                      <h5 id={`h-action-${index}`}>Name</h5>
-                                      <p aria-labelledby={`h-action-${index}`}>{action.action}</p>
-                                      <h5 id={`h-description-${index}`}>Description</h5>
-                                      <p aria-labelledby={`h-description-${index}`}>{action.description}</p>
-                                    </div>
-                                  ))}
-                                  <h3>Reactions</h3>
-                                  {character.character_data.reactions.map((reaction, index) => (
-                                    <div key={index}>
-                                      <h5 id="h-reaction-name">Name</h5>
-                                      <p aria-labelledby="h-reaction">{reaction.reaction}</p>
-                                      <h5 id="h-reaction-description">Description</h5>
-                                      <p aria-labelledby="h-reaction-description">{reaction.description}</p>
-                                    </div>
-                                  ))}
-                                  {character.character_data.legendary_actions && (
-                                    <h3>Legendary Actions</h3>
-                                  )}
-                                  {character.character_data.legendary_actions && (
-                                    character.character_data.legendary_actions.map((legendaryAction, index) => (
-                                      <div key={index}>
-                                        <h5 id={`h-legendary-action-${index}`}>Name</h5>
-                                        <p aria-labelledby={`h-legendary-action-${index}`}>{legendaryAction.legendary_action}</p>
-                                        <h5 id={`h-legendary-description-${index}`}>Description</h5>
-                                        <p aria-labelledby={`h-legendary-description-${index}`}>{legendaryAction.description}</p>
-                                      </div>
-                                    ))
-                                  )}
-                                </Container>
-                              </Container>
-                            </Accordion>
-                          ) : (
-                            <div style={{ border: '1px solid red', padding: '1rem', marginBottom: '1rem' }}>
-                              <p>One of your character's data is off. Please submit an issue (link in the footer).</p>
-                            </div>
-                          )}
+                          <LayoutCharacter character={character} isAccordion={true}>
+                            <>
+                              <Link href={`/monster/view/${character.id}`}><Button>View</Button></Link>
+                              <Link href={`/monster/edit/${character.id}`}><Button>Edit</Button></Link>
+                            </>
+                          </LayoutCharacter>
                         </li>
                       ))}
                     </List>

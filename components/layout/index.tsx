@@ -24,6 +24,7 @@ const Overlay = styled.div`
   flex-grow: 1;
   background: #1d1e2cf0;
   display: flex;
+  justify-content: center;
 `;
 
 const FooterWrapper = styled.footer`
