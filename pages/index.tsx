@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Layout from '@/components/layout'
 import Container from '@/components/container'
 import HeadContent from '@/components/head'
@@ -10,12 +9,10 @@ export default function Home() {
   const width = 512
   return (
     <>
-      <Head>
-        <HeadContent
-          title={'Dungeons and Dragons 5e | Astral Plane | Home'}
-          description={"Dungeon Master's Astral portal navigation system."}
-        />
-      </Head>
+      <HeadContent
+        title={'Dungeons and Dragons 5e | Astral Plane | Home'}
+        description={"Dungeon Master's Astral portal navigation system."}
+      />
       <main>
         <Layout>
           <Link href='/monsters/public'>

@@ -1,5 +1,3 @@
-
-
 import { GetServerSideProps } from 'next';
 import { supabase } from '@/lib/supabaseClient';
 import { Database } from '@/lib/database.types'
@@ -7,6 +5,7 @@ import Container from '@/components/container';
 import { parse } from 'url';
 import Layout from '@/components/layout';
 import LayoutCharacter from '@/components/layout/character'
+import HeadContent from '@/components/head';
 
 type Props = {
   data: Database['public']['Tables']['characters']['Row'];
@@ -21,6 +20,10 @@ const CharacterPage: React.FC<Props> = ({ data }) => {
   if (character?.character_data) {
     return (
       <Layout>
+        <HeadContent
+          title={'Dungeons and Dragons 5e | Material Plane Monster'}
+          description={"Publicly generated monster for free use."}
+        />
         <Container padding='1rem'>
           <LayoutCharacter character={character} />
         </Container>
@@ -29,6 +32,10 @@ const CharacterPage: React.FC<Props> = ({ data }) => {
   } else {
     return (
       <Layout>
+        <HeadContent
+          title={'Dungeons and Dragons 5e | In Limbo'}
+          description={"Monster is not put together correctly."}
+        />
         <Container>
           <h1>Character data is not formatted correctly</h1>
         </Container>
