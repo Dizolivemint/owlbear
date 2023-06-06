@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient, Session } from '@supabase/auth-helpers-react'
 import { Database } from 'lib/database.types'
-import Head from 'next/head'
 import Layout from '@/components/layout'
 import Container from '@/components/container'
 import HeadContent from '@/components/head'
@@ -83,12 +82,10 @@ export default function Account({ session }: { session: Session }) {
 
   return (
     <>
-    <Head>
-      <HeadContent
-          title={'Dungeons and Dragons 5e - Character Generator and Owlbear'}
-          description={'Owlbear for use with Dungeons and Dragons 5e'}
-        />
-    </Head>
+    <HeadContent
+        title={'Dungeons and Dragons 5e - Character Generator and Owlbear'}
+        description={'Owlbear for use with Dungeons and Dragons 5e'}
+      />
     <Layout>
       <Container padding={'1rem'}>
         <Container>

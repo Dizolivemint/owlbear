@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Layout from '@/components/layout'
 import { useState } from 'react'
 import { Database } from '@/lib/database.types'
@@ -92,12 +91,10 @@ export default function Monsters() {
 
   return (
     <>
-      <Head>
-        <HeadContent
-          title={'Dungeons and Dragons 5e | Monster Limbo'}
-          description={"Dungeon Master's monster generator and DnD 5e stat block maker."}
-        />
-      </Head>
+      <HeadContent
+        title={'Dungeons and Dragons 5e | Monster Limbo'}
+        description={"Dungeon Master's monster generator and DnD 5e stat block maker."}
+      />
       <main>
         <Layout>
           <Container center={true}>

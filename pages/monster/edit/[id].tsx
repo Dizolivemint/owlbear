@@ -10,6 +10,7 @@ import Button from '@/components/button';
 import Social from '@/components/social';
 import Layout from '@/components/layout';
 import CustomButton from '@/components/modal';
+import HeadContent from '@/components/head';
 
 const characterPlaceholder: Database['public']['Tables']['characters']['Row'] = {
   id: -1,
@@ -115,6 +116,10 @@ export default function CharacterEditPage () {
   // Render the character data
   return (
     <Layout>
+      <HeadContent
+        title={'Dungeons and Dragons 5e | Monster Editor'}
+        description={"Dungeon Master's monster and stat block editor."}
+      />
       {isCharacter(character?.character_data) && (
         <Container padding='1rem'>
           <Container padding='1rem' center={true}>

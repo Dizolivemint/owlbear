@@ -1,16 +1,10 @@
 import { useRouter } from 'next/router';
-import { isCharacter } from '@/lib/typeGuards';
 import { Database } from '@/lib/database.types'
-import Container from '@/components/container';
-import Image from 'next/image';
-import List from '@/components/lists';
 import { useEffect, useState } from 'react';
 import Loader from '@/components/loader';
-import Button from '@/components/button';
-import Social from '@/components/social';
 import Layout from '@/components/layout';
 import LayoutCharacter from '@/components/layout/character';
-import CustomButton from '@/components/modal';
+import HeadContent from '@/components/head';
 
 const characterPlaceholder: Database['public']['Tables']['characters']['Row'] = {
   id: -1,
@@ -80,6 +74,10 @@ export default function CharacterViewPage () {
   // Render the character data
   return (
     <Layout>
+      <HeadContent
+        title={'Dungeons and Dragons 5e | Monster Maker View'}
+        description={"Dungeon Master's monster view and DnD 5e stat block maker."}
+      />
       <Loader showLoader={loading} >
         <LayoutCharacter character={character} />
       </Loader>

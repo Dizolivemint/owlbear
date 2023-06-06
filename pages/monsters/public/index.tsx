@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Layout from '@/components/layout'
 import { useState } from 'react'
 import { Database } from '@/lib/database.types'
@@ -32,12 +31,10 @@ export default function MonstersPublic({ data }: Props) {
 
   return (
     <>
-      <Head>
-        <HeadContent
-          title={'Dungeons and Dragons 5e | Monsters on the Material Plane'}
-          description={"Dungeon Master's public generated monsters for free use."}
-        />
-      </Head>
+      <HeadContent
+        title={'Dungeons and Dragons 5e | Monsters on the Material Plane'}
+        description={"Dungeon Master's public generated monsters for free use."}
+      />
       <main>
         <Layout>
           <Container center={true}>
