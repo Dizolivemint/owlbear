@@ -44,6 +44,24 @@ We welcome contributions from the community! To contribute to Owlbear, follow th
 5. Write unit tests
 6. Submit a pull request
 
+## Usage
+## Instructions
+### Step 1 - Log in
+1. Go to the login page using the navigation
+2. Fill in your email and send yourself a magic link.
+3. That link should show up in your email (if not, check your spam or retry).
+4. Select the "send magic link" button to complete your sign in.
+
+### Step 2 - Create your Monsters
+1. Go to Monsters in the navigation
+2. Otherwise, go to the Create tab
+3. Pick a size, and type in anything for the species or type
+4. Finally, pick a CR and select Is Legendary if you want legendary actions
+
+### Step 3 - View your Monsters
+1. Go back to the Monsters tab to see your monsters.
+2. Select the monster you want to see.
+
 ## License
 
 NextLMS is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License](https://creativecommons.org/licenses/by-nc-nd/4.0/). This license prohibits the selling of the software without explicit permission from the owner. See [`LICENSE`](LICENSE.MD) for more information.
