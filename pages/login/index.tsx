@@ -71,19 +71,6 @@ export default function Login() {
     setLoading(false);
   };
 
-  // const handleFacebookLogin = async () => {
-  //   setLoading(true);
-  //   const { data, error } = await supabase.auth.signInWithOAuth({
-  //     provider: 'facebook',
-  //   });
-  //   if (data && session) {
-  //     router.push('/monsters');
-  //   } else if (error) {
-  //     setStatus(error.message);
-  //   }
-  //   setLoading(false);
-  // };
-
   return (
     <>
       <Head>
@@ -127,9 +114,6 @@ export default function Login() {
                   </div>
                   <Button type="submit">Send OTP Code</Button>
                 </form>
-                {/* <div style={{ marginTop: '1rem' }}>
-                  <Button onClick={handleFacebookLogin}>Login with Facebook</Button>
-                </div> */}
               </>
             )}
           </Container>

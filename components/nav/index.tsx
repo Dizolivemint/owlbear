@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoCloseSharp } from 'react-icons/io5';
-import { DefaultContext } from 'react-icons/lib';
 
 const NavContainer = styled.nav`
   background: linear-gradient(to right, #000000, #1d222c);
@@ -22,6 +21,17 @@ const NavContainer = styled.nav`
 type NavListProps = {
   isOpen: boolean;
 };
+
+const enlargeAnimation = keyframes`
+  0% { transform: scale(0); opacity: 0;}
+  90% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1;}
+`;
+
+const shrinkAnimation = keyframes`
+  0% { transform: scale(1); }
+  100% { transform: scale(0); opacity: 0;}
+`;
 
 const NavList = styled.ul<NavListProps>`
   display: flex;
@@ -40,8 +50,20 @@ const NavList = styled.ul<NavListProps>`
     width: 100%;
     height: 100%;
     z-index: 200;
-    display: ${(props) => (props.isOpen ? 'flex' : 'none')};
+
+    &.shrink {
+      transform: scale(0);
+    }
+
     background: linear-gradient(to bottom, #000000, #1d222c);
+    ${(props) => props.isOpen && css`
+      animation-name: ${enlargeAnimation};
+      animation-duration: .5s;
+    `}
+    ${(props) => !props.isOpen && css`
+      animation-name: ${shrinkAnimation};
+      animation-duration: .5s;
+    `}
   }
 
   @media (min-width: 769px) {
@@ -70,6 +92,10 @@ const NavLink = styled.div<NavLinkProps>`
   padding: 5px;
   border-radius: 4px;
   cursor: ${(props) => props.isActive ? 'default' : 'pointer'};
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin: 1rem;
+  }
 
   ${(props) => !props.isActive && css`
     &:hover {
@@ -93,18 +119,36 @@ const CloseIcon = styled(IoCloseSharp)`
   cursor: pointer;
 `;
 
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
+const rotateOpen = keyframes`
+  0% {
+    transform: rotate(135deg);
   }
-  to {
-    transform: rotate(45deg);
+  100% {
+    transform: rotate(0deg);
   }
 `;
 
-const Hamburger = styled.div`
+const rotateClosed = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+`;
+
+const Hamburger = styled.div<NavListProps>`
   display: inline-block;
-  animation: ${rotate} 0.2s linear;
+  ${(props) => props.isOpen && css`
+    animation: ${rotateOpen} 0.2s linear;
+  `}
+  ${(props) => !props.isOpen && css`
+    animation: ${rotateClosed} 0.2s linear;
+  `}
+  
   z-index: 300;
   @media (min-width: 769px) {
     display: none;
@@ -138,6 +182,7 @@ type NavProps = {
 const Nav = ({ list }: NavProps) => {
   const session = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const [isShrink, setIsShrink] = useState(false);
   const router = useRouter();
 
   const navList = session
@@ -191,15 +236,19 @@ const Nav = ({ list }: NavProps) => {
     setIsOpen(!isOpen);
   };
 
+  const handleAnimation = () => {
+    setIsShrink(!isOpen);
+  };
+
   return (
     <NavContainer>
       <Link href="/">
         <Logo />
       </Link>
-      <Hamburger onClick={handleToggleNav}>
+      <Hamburger onClick={handleToggleNav} isOpen={isOpen}>
         {isOpen ? <CloseIcon /> : <HamburgerIcon />}
       </Hamburger>
-      <NavList isOpen={isOpen}>
+      <NavList isOpen={isOpen} onAnimationStart={handleAnimation} onAnimationEnd={handleAnimation} className={isShrink ? 'shrink' : ''}>
         {navList.map((item, index) => (
           <NavItem key={index}>
             {item.href === router.pathname ? (
