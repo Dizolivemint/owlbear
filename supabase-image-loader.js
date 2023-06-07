@@ -3,7 +3,7 @@ export default function supabaseLoader({ src, width, quality }) {
 
   if (src.startsWith('/public/')) {
     // Local image from the public directory
-    const publicPath = `http://localhost:3000${src}`.replace('/public', '')
+    const publicPath = src.replace('/public', '').replace(/\//g, '');
     return `/api/loader?url=${encodeURIComponent(publicPath)}&w=${width}&q=${quality || 100}`;
   } else if (src.startsWith('https')) {
     // Another remote image

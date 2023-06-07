@@ -2,10 +2,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import sharp from "sharp";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const domain = req.headers.host;
+  if (!domain) {
+    res.status(400).send("400 Bad request. domain is missing");
+    return;
+  }
+  const httpString = domain.includes('localhost') ? 'http' : 'https';
   if (req.method === "GET") {
     try {
-      const url = decodeURI(req.query.url as string);
+      const url = req.query.url?.includes('https') ? decodeURI(req.query.url as string) : `${httpString}://${domain}/${decodeURI(req.query.url as string)}`;
 
+      console.log(url)
       if (!url) {
         res.status(400).send("400 Bad request. url is missing");
         return;
