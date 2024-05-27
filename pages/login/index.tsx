@@ -6,7 +6,6 @@ import Layout from '@/components/layout';
 import Button from '@/components/button';
 import Input, { InputLabel } from '@/components/input';
 import Container from '@/components/container';
-import Link from 'next/link';
 
 export default function Login() {
   const session = useSession();
@@ -82,7 +81,6 @@ export default function Login() {
       <main>
         <Layout navList={[]}>
           <Container padding={'2rem'} center={true}>
-            <p>Sendgrid is working to resolve a security issue that is preventing emails from being sent. For now, please check out the <Link href="/monsters/public" style={{color:"pink"}}>Public section</Link>.</p>
             <h1>Login</h1>
             {status && ( 
               <>
